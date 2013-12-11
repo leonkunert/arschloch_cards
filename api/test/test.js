@@ -14,7 +14,7 @@ describe('Does Testing work', function() {
 
 describe('Correct Errors', function() {
     describe('Can\'t create Tables with get', function() {
-        it('It Should Return Cannot GET /v1/add/tables', function() {
+        it('It Should Return Json', function() {
 
             request(express)
                 .get('/v1/add/table')
@@ -22,12 +22,20 @@ describe('Correct Errors', function() {
                 .expect('application/json');
         });
 
-        it('It Should Return Cannot GET /v1/add/tables', function() {
+        it('It Should Return No Player Id given', function() {
 
             request(express)
-                .get('/v1/add/table')
+                .post('/v1/add/player/52a7939935a0fe0000000003/')
                 .set('Content-Type', 'application/json')
-                .expect('Cannot GET /v1/add/tables');
+                .expect('{"Error": "No Player id given"}');
+        });
+
+        it('It Should Return No table Id given', function() {
+
+            request(express)
+                .post('/v1/add/player//52a7939935a0fe0000000003')
+                .set('Content-Type', 'application/json')
+                .expect('{"Error": "No Table id given"}');
         })
     })
 })

@@ -1,8 +1,8 @@
 /* The API controller
     Exports 3 methods:
-    * post - Creates a new table
-    * TODO: addPlayerToTable()
-    * list - Returns a list of threads
+    * addTable         - Creates a new table
+    * addPlayerToTable - Adds a Player to a table
+    * listTables       - Returns a list of threads
 */
 
 var table = require('./schemas/table.js');
@@ -24,6 +24,21 @@ exports.addTable = function(req, res) {
 
 exports.addPlayerToTable = function(req, res) {
     // Update Table NumPlayers and add to player List
+
+    // If No Table Id is given
+    if (!req.params.tableId) {
+        res.json({"Error": "No Table id given"})
+        return false;
+    }
+
+    // If no Player Id is given
+    if (!req.params.playerId) {
+        res.json({"Error": "No Player id given"})
+        return false;
+    }
+
+    console.log(req.params);
+    res.json({"success":req.params});
 }
 
 exports.listTables = function(req, res) {

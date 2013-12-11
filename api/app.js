@@ -13,6 +13,7 @@ app.configure(function(){
 // set up the RESTful API, handler methods are defined in api.js
 var api = require('./api.js');
 app.post('/v1/add/table', api.addTable);
+app.post('/v1/add/player/:tableId/:playerId', api.addPlayerToTable);
 app.get('/v1/tables', api.listTables);
 
 app.listen(3003);
