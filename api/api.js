@@ -14,8 +14,11 @@ exports.addTable = function(req, res) {
     new table({
         maxPlayers: req.body.maxPlayers
     }).save(function(err, result, numberAffected) {
+        // If an error occours
         if (err) console.log(err);
-        res.send([req.body, result]);
+
+        // Return whatever has been inserted into the DB
+        res.send(result);
     });
 }
 
