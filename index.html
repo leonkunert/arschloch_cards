@@ -3,12 +3,19 @@
 <head>
     <title>Arschloch for the Browser and hopfully online</title>
 </head>
-<body>
+<body data-ng-app="app" data-ng-controller="AppCtrl as app">
     <a href="/test/test.html">Test</a>
-    <!-- Loading Jquery -->
-    <script type="text/javascript" src="/bower_components/jquery/jquery.min.js"></script>
+
+    <ul>
+        <li data-ng-repeat="table in app.tables">
+            {{table._id}} <br /> {{table.players}}
+        </li>
+    </ul>
+
+    <!-- Loading Angular -->
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
 
     <!-- Loading own JS -->
-    <script type="text/javascript" src="/js/hello.js"></script>
+    <script type="text/javascript" src="/js/ctrl.js"></script>
 </body>
 </html>
