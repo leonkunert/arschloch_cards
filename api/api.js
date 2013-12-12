@@ -17,9 +17,9 @@
 */
 
 // Imports
-var table  = require('./schemas/table.js')
-  , player = require('./schemas/player.js')
-  , auth   = require('./auth.js');
+var table    = require('./schemas/table.js')
+    , player = require('./schemas/player.js')
+    , auth   = require('./auth.js');
 
 
 /*---- Adding things ----*/
@@ -60,30 +60,16 @@ exports.addPlayer = function(req, res) {
 // Add Player to Table Or Create it if it doesn't exist jet
 exports.addPlayerToTable = function(req, res) {
     // Update Table NumPlayers and add to player List
-
-    // If No Table Id is given
-    if (!req.params.tableId) {
-        res.json({"Error": "No Table id given"})
-    }
-
-    // If no Player Id is given
-    else if (!req.params.playerId) {
-        res.json({"Error": "No Player id given"})
-    }
-
-    // If a Player Id and A Table Id is given
-    else {
-        // Update Table with PlayerId
-        player.findByIdAndUpdate(
-            {_id: req.params.playerId},
-            {tableId: req.params.tableId},
-            {safe: true, upsert: true},
-            function(err, model) {
-                if (err) console.log(err);
-                res.json(model);
-            }
-        );
-    }
+    // Update Table with PlayerId
+    player.findByIdAndUpdate(
+        {_id: req.params.playerId},
+        {tableId: req.params.tableId},
+        {safe: true, upsert: true},
+        function(err, model) {
+            if (err) console.log(err);
+            res.json(model);
+        }
+    );
 }
 
 
@@ -98,27 +84,18 @@ exports.listTables = function(req, res) {
 
 // Get Single Table by Id
 exports.getTable = function(req, res) {
-
-    // If No Table Id is given
-    if (!req.params.tableId) {
-        res.json({"Error": "No Table id given"})
-    }
-    else {
-
-        // Find a Table By Id
-        table.findById(req.params.tableId, function(err, table) {
-            // If no Table with that id is found
-            if (table == null) {
-                res.json([]);
-            }
-            else {
-                player.find({tableId: table._id}, function(err, players) {
-                    res.json([table, players]);
-                });
-            }
-        });
-
-    }
+    // Find a Table By Id
+    table.findById(req.params.tableId, function(err, table) {
+        // If no Table with that id is found
+        if (table == null) {
+            res.json([]);
+        }
+        else {
+            player.find({tableId: table._id}, function(err, players) {
+                res.json([table, players]);
+            });
+        }
+    });
 }
 
 // List all Players
@@ -130,52 +107,31 @@ exports.listPlayers = function(req, res) {
 
 // Get Single Player by Id
 exports.getPlayer = function(req, res) {
-
-    // If No Table Id is given
-    if (!req.params.playerId) {
-        res.json({"Error": "No Player id given"})
-    }
-    else {
-        // Find Player in DB by Id
-        player.findById(req.params.playerId, function(err, player) {
-            res.json(player);
-        });
-    }
-
+    // Find Player in DB by Id
+    player.findById(req.params.playerId, function(err, player) {
+        res.json(player);
+    });
 }
 
 
 /*---- Deleting things ----*/
 
-
 // Delete Table
 exports.deleteTable = function(req, res) {
+    // Remove command
+    table.findByIdAndRemove(req.params.tableId).exec();
 
-    // If No Table Id is given
-    if (!req.params.tableId) {
-        res.json({"Error": "No Table id given"});
-    }
-    else {
-        // Remove command
-        table.remove({ _id: req.params.tableId }).exec();
+    // Update all Players, so they don't belong to that table any more
+    player.update({tableId: req.params.tableId}, {tableId: null}, { multi: true }).exec();
 
-        // Update all Players, so they don't belong to that table any more
-        player.update({tableId: req.params.tableId}, {tableId: null}, { multi: true }).exec();
-
-        res.json({"success":true});
-    }
-
+    // Return True
+    res.json({"success":true});
 }
 
 exports.deletePlayer = function(req, res) {
+    // Remove command
+    player.findByIdAndRemove(req.params.playerId).exec();
 
-    // If No Player Id is given
-    if (!req.params.playerId) {
-        res.json({"Error": "No Player id given"});
-    }
-    else {
-        // Remove command
-        player.remove({ _id: req.params.tableId }).exec();
-    }
-
+    // Return True
+    res.json({"success":true});
 }

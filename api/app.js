@@ -1,6 +1,6 @@
-var express  = require('express')
-  , mongoose = require('mongoose')
-  , app      = express();
+var express    = require('express')
+    , mongoose = require('mongoose')
+    , app      = express();
 
 // connect to Mongo when the app initializes
 mongoose.connect('mongodb://localhost/arsch');
@@ -26,6 +26,7 @@ var api = require('./api.js');
 // DELETE
     // Tables
     app.post('/v1/rm/table/:tableId', api.deleteTable);
+    app.post('/v1/rm/player/:playerId', api.deletePlayer);
 
 // GET
     // Tables
