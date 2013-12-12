@@ -1,6 +1,6 @@
-var express = require('express');
+var express  = require('express');
 var mongoose = require('mongoose');
-var app = express();
+var app      = express();
 
 // connect to Mongo when the app initializes
 mongoose.connect('mongodb://localhost/arsch');
@@ -12,9 +12,19 @@ app.configure(function(){
 
 // set up the RESTful API, handler methods are defined in api.js
 var api = require('./api.js');
+
+// POST
 app.post('/v1/add/table', api.addTable);
-app.post('/v1/add/player/:tableId/:playerId', api.addPlayerToTable);
+
+// UPDATE
+app.post('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
+
+// DELETE
+app.post('/v1/rm/table/:tableId', api.deleteTable);
+
+// GET
 app.get('/v1/tables', api.listTables);
+app.get('/v1/table/:tableId', api.getTable);
 
 app.listen(3003);
 
