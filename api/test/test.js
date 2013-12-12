@@ -1,41 +1,37 @@
 // Tests using Mocha
 // Require Assert for assertation
-var assert  = require("assert"),
-    request = require("supertest"),
-    express = require("../app.js")
+var assert  = require("assert")
+  , request = require("supertest")
+  , app = require("../app.js");
 
 describe('Does Testing work', function() {
     describe('Hello Test', function() {
         it('It Should Just pass', function() {
             assert.equal('Hello Test', 'Hello Test');
         })
+        it('It Should Just Not pass', function() {
+            assert.equal(true, false);
+        })
     })
 });
 
 describe('Correct Errors', function() {
     describe('Can\'t create Tables with get', function() {
-        it('It Should Return Json', function() {
-
-            request(express)
-                .get('/v1/add/table')
-                .set('Content-Type', 'application/json')
-                .expect('application/json');
-        });
-
         it('It Should Return No Player Id given', function() {
 
-            request(express)
-                .post('/v1/add/player/52a7939935a0fe0000000003/')
+            request(app)
+                .post('/v1/add/table/52aa3022afe8fa0000000005/')
                 .set('Content-Type', 'application/json')
+                .expect('Content-Length', '20')
                 .expect('{"Error": "No Player id given"}');
         });
 
         it('It Should Return No table Id given', function() {
 
-            request(express)
-                .post('/v1/add/player//52a7939935a0fe0000000003')
+            request(app)
+                .post('/v1/add/table//52aa3022afe8fa0000000005')
                 .set('Content-Type', 'application/json')
-                .expect('{"Error": "No Table id given"}');
+                .expect('{"Error": "o Table id given"}');
         })
     })
 })
