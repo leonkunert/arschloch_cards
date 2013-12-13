@@ -6,11 +6,26 @@ var assert    = require("assert")
     ,table ,player;
 
 describe('Simple', function() {
-    assert.equal(true, true);
+    assert.equal(true, true, 'True is not True');
 });
 
-describe('POST', function() {
-    /*------ Tables ------*/
+describe('API', function() {
+    /*------ ERRORS ------*/
+    it('Creating a new Player without auth should respond with 403', function(done) {
+        request(app)
+            .post('/v1/add/table')
+            .expect(403, /Authentication failed/, done);
+    });
+
+    it('Creating a new Table without auth should respond with 403', function(done) {
+        request(app)
+            .post('/v1/add/table')
+            .expect(403, /Authentication failed/, done);
+    });
+
+
+    /*------ ADDING ------*/
+
     it('Creating a new Table should respond with json', function(done) {
         request(app)
             .post('/v1/add/table')
@@ -22,15 +37,6 @@ describe('POST', function() {
                 done();
             });
     });
-
-    it('Creating a new Table without auth should respond with 403', function(done) {
-        request(app)
-            .post('/v1/add/table')
-            .expect(403, /Authentication failed/, done);
-    });
-
-
-    /*------ Players ------*/
 
     it('Creating a new Player should respond with json', function(done) {
         request(app)
@@ -44,25 +50,10 @@ describe('POST', function() {
             });
     });
 
-    it('Creating a new Player without auth should respond with 403', function(done) {
-        request(app)
-            .post('/v1/add/table')
-            .expect(403, /Authentication failed/, done);
-    });
 
-});
+    /*------ UPDATE ------*/
 
-describe('GET', function() {
-    /*------ Tables ------*/
-    it('respond with json', function(done) {
-        request(app)
-            .get('/v1/tables')
-            .expect('Content-Type', /json/, done);
-    });
-});
-
-describe('UPDATE', function() {
-    it('Updating a Table with a Player', function(done) {
+    it('Should be updating a Table with a Player', function(done) {
         request(app)
             .post('/v1/add/table/'+table._id+'/'+player._id)
             .end(function(err, res) {
@@ -70,12 +61,52 @@ describe('UPDATE', function() {
                 assert.equal(res.body._id, player._id, 'Player Id is not the Same as in the DB');
                 done();
             });
+    });
 
-    })
+    /*------ GET ------*/
 
-    it('Test', function(done) {
-        // console.log(table);
-        // console.log(player);
-        done();
+    it('Should get All tables', function (done) {
+        request(app)
+            .get('/v1/tables')
+            .expect('Content-Type', /json/)
+            .expect(200, /"passPlayers"/, done);
+    });
+
+    it('Should get One Table', function (done) {
+        request(app)
+            .get('/v1/table/'+table._id)
+            .expect('Content-Type', /json/)
+            .expect(200, /"_id"/, done);
+    });
+
+    it('Should get All Players', function (done) {
+        request(app)
+            .get('/v1/players')
+            .expect('Content-Type', /json/)
+            .expect(200, /"playerName": "😌"/, done);
+    });
+
+    it('Should get One Player', function (done) {
+        request(app)
+            .get('/v1/player/'+player._id)
+            .expect('Content-Type', /json/)
+            .expect(200, /"_id"/, done);
+    });
+
+
+    /*------ DELETE ------*/
+
+    it('should delete the Table', function (done) {
+        request(app)
+            .post('/v1/rm/table/id/'+table._id)
+            .expect('Content-Type', /json/)
+            .expect(200, '{\n  "success": true\n}', done);
+    });
+
+    it('should delete the Table', function (done) {
+        request(app)
+            .post('/v1/rm/player/id/'+player._id)
+            .expect('Content-Type', /json/)
+            .expect(200, '{\n  "success": true\n}', done);
     });
 });
