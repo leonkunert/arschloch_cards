@@ -10,7 +10,7 @@ var playerSchema = mongoose.Schema({
     tableId    : ObjectId,
     cards      : [
       { card   : String }
-    ],
-}, { collection : 'players' });
+    ]
+}, {collection : 'players' });
 
 module.exports = mongoose.model('player', playerSchema);

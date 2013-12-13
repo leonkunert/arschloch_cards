@@ -1,6 +1,5 @@
 /* The API controller
 
-
     /---- Adding things ----/
     * addTable         - Creates a new table
     * addPlayer        - Creates a new player
@@ -26,32 +25,34 @@ var table    = require('./schemas/table.js')
 
 // Create a New Table with MaxPlayers
 exports.addTable = function(req, res) {
-    auth.checkAuth(req, res);
-    new table({
-        maxPlayers: req.body.maxPlayers
-    }).save(function(err, result, numberAffected) {
-        // If an error occours
-        if (err) console.log(err);
+    if (auth.checkAuth(req, res)) {
+        new table({
+            maxPlayers: req.body.maxPlayers
+        }).save(function(err, result, numberAffected) {
+            // If an error occours
+            if (err) console.log(err);
 
-        // Return whatever has been inserted into the DB
-        res.json(result);
-    });
+            // Return whatever has been inserted into the DB
+            res.json(result);
+        });
+    }
 }
 
 // Create a New Player
 exports.addPlayer = function(req, res) {
-    auth.checkAuth(req, res);
-    new player({
-        playerName : req.body.playerName,
-        active     : false,
-        cards      : []
-    }).save(function(err, result, numberAffected) {
-        // If an error occours
-        if (err) console.log(err);
+    if (auth.checkAuth(req, res)) {
+        new player({
+            playerName : req.body.playerName,
+            active     : false,
+            cards      : []
+        }).save(function(err, result, numberAffected) {
+            // If an error occours
+            if (err) console.log(err);
 
-        // Return whatever has been inserted into the DB
-        res.json(result);
-    })
+            // Return whatever has been inserted into the DB
+            res.json(result);
+        });
+    }
 }
 
 
@@ -116,8 +117,8 @@ exports.getPlayer = function(req, res) {
 
 /*---- Deleting things ----*/
 
-// Delete Table
-exports.deleteTable = function(req, res) {
+// Delete a Table by Id
+exports.deleteTableById = function(req, res) {
     // Remove command
     table.findByIdAndRemove(req.params.tableId).exec();
 
@@ -128,10 +129,17 @@ exports.deleteTable = function(req, res) {
     res.json({"success":true});
 }
 
-exports.deletePlayer = function(req, res) {
+// Delete a Player By Id
+exports.deletePlayerById = function(req, res) {
     // Remove command
     player.findByIdAndRemove(req.params.playerId).exec();
 
     // Return True
     res.json({"success":true});
+}
+
+// Delete a Player By Name
+exports.deletePlayerByName = function(req, res) {
+    // Remove command
+    player.findOneAndRemove({name:req.params.playerName}).exec();
 }

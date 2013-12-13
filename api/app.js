@@ -13,28 +13,32 @@ app.configure(function(){
 // set up the RESTful API, handler methods are defined in api.js
 var api = require('./api.js');
 
-// POST / PUT
-    // Tables
-    app.post('/v1/add/table', api.addTable);
-    // Players
-    app.post('/v1/add/player', api.addPlayer);
+/* ----- POST ----- */
+
+// ADD
+// Tables
+app.post('/v1/add/table', api.addTable);
+// Players
+app.post('/v1/add/player', api.addPlayer);
 
 // UPDATE
-    // Tables
-    app.post('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
+// Tables
+app.post('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
 
 // DELETE
-    // Tables
-    app.post('/v1/rm/table/:tableId', api.deleteTable);
-    app.post('/v1/rm/player/:playerId', api.deletePlayer);
+// Tables
+app.post('/v1/rm/table/id/:tableId', api.deleteTableById);
+app.post('/v1/rm/player/id/:playerId', api.deletePlayerById);
 
-// GET
-    // Tables
-    app.get('/v1/tables', api.listTables);
-    app.get('/v1/table/:tableId', api.getTable);
-    // Players
-    app.get('/v1/players', api.listPlayers);
-    app.get('/v1/player/:playerId', api.getPlayer);
+
+/* ----- GET ----- */
+
+// Tables
+app.get('/v1/tables', api.listTables);
+app.get('/v1/table/:tableId', api.getTable);
+// Players
+app.get('/v1/players', api.listPlayers);
+app.get('/v1/player/:playerId', api.getPlayer);
 
 app.listen(3003);
 
