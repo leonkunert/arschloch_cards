@@ -18,7 +18,10 @@
 // Imports
 var table    = require('./schemas/table.js')
     , player = require('./schemas/player.js')
+    , cards  = require('./schemas/cards.js')
     , auth   = require('./auth.js');
+
+    console.log(new cards.playingCards());
 
 
 /*---- Adding things ----*/

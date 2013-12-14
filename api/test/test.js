@@ -50,6 +50,10 @@ describe('API', function() {
             });
     });
 
+    it('should create a new Deck of cards', function (done) {
+        done();
+    });
+
 
     /*------ UPDATE ------*/
 
