@@ -1,6 +1,5 @@
 
 test:
-	/usr/local/share/npm/bin/mocha \
-		--reporter spec
-	cd api/test/test.js
-	mocha
+	@cd api/test/ && mocha --reporter spec
+
+.PHONY: all test clean
