@@ -5,7 +5,7 @@ var express    = require('express')
 // connect to Mongo when the app initializes
 mongoose.connect('mongodb://localhost/arsch');
 
-app.configure(function(){
+app.configure(function () {
     app.use(express.static(__dirname + '/../'));
     app.use(express.bodyParser());
 });
@@ -40,7 +40,7 @@ app.get('/v1/table/:tableId', api.getTable);
 app.get('/v1/players', api.listPlayers);
 app.get('/v1/player/:playerId', api.getPlayer);
 // Decks
-app.get('/v1/decks', api.getDeck);
+app.get('/v1/deck', api.getDeck);
 
 app.listen(3003);
 

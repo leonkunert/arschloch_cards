@@ -30,7 +30,9 @@ p {
 .table {
   border-radius: 5px;
   border: 1px solid #ff9d40;
-  padding: 5px; }
+  background-color: #ff9d40;
+  padding: 5px;
+  margin: 5px; }
 
 .player {
   background-color: #ff9d40;

@@ -11,7 +11,7 @@ var playerSchema = mongoose.Schema({
     online     : Boolean,
     tableId    : ObjectId,
     cards      : [
-      { card   : String }
+        { card   : String }
     ]
 }, {collection : 'players' });
 

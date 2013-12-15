@@ -49,7 +49,9 @@ p {
 .table {
     border-radius: $border_ra;
     border: 1px solid $border_co;
+    background-color: $cont_bg;
     padding: $padd;
+    margin: 5px;
 }
 .player {
     background-color: $cont_bg;

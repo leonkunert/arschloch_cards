@@ -2,7 +2,7 @@
  * Cards And Decks functionality
  */
 
-exports.playingCards = function(conf) {
+exports.playingCards = function (conf) {
     var c = exports.objExtend(exports.playingCards.defaults, conf);
     this.conf = c;
     this.init();
@@ -15,10 +15,10 @@ exports.playingCards = function(conf) {
 /**
  * initializer - builds the deck
  */
-exports.playingCards.prototype.init = function() {
+exports.playingCards.prototype.init = function () {
     this.cards = [];
     var o = this.conf,
-        l,i,s,r,j;
+        l, i, s, r, j;
     // populate draw pile
     for (i = 0; i < o.decks; i++) {
         // standard
@@ -60,7 +60,7 @@ exports.playingCards.defaults = {
 };
 
 // Card Object
-exports.playingCards.card = function(rank, rankString, suit, suitString) {
+exports.playingCards.card = function (rank, rankString, suit, suitString) {
     if (! (this instanceof exports.playingCards.card)) {
         return new exports.playingCards.card(rank, rankString, suit, suitString);
     }
@@ -77,14 +77,14 @@ exports.playingCards.card = function(rank, rankString, suit, suitString) {
     this.suit       = suit;
     this.suitString = suitString;
     return this;
-}
+};
 
-exports.playingCards.prototype.shuffle = function(n) {
+exports.playingCards.prototype.shuffle = function (n) {
     if (!n) {
         n = 5;
     }
     var l = this.cards.length,
-        r,tmp,i,j;
+        r, tmp, i, j;
 
     for (i = 0; i < n; i++) {
         for (j = 0; j < l; j++) {
@@ -102,7 +102,7 @@ exports.playingCards.prototype.shuffle = function(n) {
 /**
  * Simple object extend to override default settings
  */
-exports.objExtend = function(o, ex) {
+exports.objExtend = function (o, ex) {
     if (!ex) {
         return o;
     }
@@ -110,4 +110,4 @@ exports.objExtend = function(o, ex) {
         o[p] = ex[p];
     }
     return o;
-}
+};

@@ -11,14 +11,18 @@ var tableSchema = mongoose.Schema({
     // Number of Players
     numPlayers   : Number,
 
+    players      : [
+        ObjectId
+    ],
+
     // High Cards as Array
     highCard     : [
-      { card     : String }
+        String
     ],
 
     // Order of Players for this round
     order        : [
-      { playerId : ObjectId }
+        {playerId: ObjectId}
     ],
 
     // Player that has to so the next move
@@ -26,8 +30,8 @@ var tableSchema = mongoose.Schema({
 
     // Players that are not active any more
     passPlayers  : [
-      { playerId : ObjectId }
+        ObjectId
     ]
-}, { collection : 'tables' });
+}, {collection: 'tables'});
 
 module.exports = mongoose.model('table', tableSchema);
