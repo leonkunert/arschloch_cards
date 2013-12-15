@@ -1,4 +1,9 @@
 {
+    "name": "arschloch",
+    "description": "An arschloch implementation online and with node",
+    "version": "0.0.1",
+    "author": "Leon K. <leonkunert@me.com>",
+    "repository": "git://github.com/leonkunert/arschloch_cards",
     "dependencies": {
         "mocha": "1.15.1"
     }
