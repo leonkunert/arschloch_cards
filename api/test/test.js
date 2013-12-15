@@ -5,11 +5,18 @@ var assert    = require("assert")
     , app     = require("../app.js")
     , cards   = require("../schemas/cards.js");
 
-describe('Simple', function() {
-    assert.equal(true, true, 'True is not True');
-});
-
 describe('API', function() {
+
+    /*------ SIMPLE ------*/
+
+    describe('Simple', function() {
+        assert.equal(true, true, 'True is not True');
+        it('should check if everything is set up correctly', function (done) {
+            assert.equal(true, true, 'True is not True');
+            done();
+        });
+    });
+
     /*------ ERRORS ------*/
 
     describe('ERRORS', function () {
@@ -99,6 +106,17 @@ describe('API', function() {
                 .get('/v1/player/'+exports.player._id)
                 .expect('Content-Type', /json/)
                 .expect(200, /"_id"/, done);
+        });
+
+        it('Should get a new Deck', function (done) {
+            request(app)
+                .get('/v1/decks')
+                .expect('Content-Type', /json/)
+                .expect(200, /"cards"/)
+                .end(function(err, res) {
+                    assert.equal(res.body.cards.length, 52);
+                    done();
+                })
         });
     });
 
