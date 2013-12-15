@@ -1,0 +1,66 @@
+/*
+ * Colors
+ */
+$bg: #8888ff;
+$border_co: #FF9D40;
+$cont_bg: #FF9D40;
+$co2: #3D3D99;
+$co3: #0086FF;
+$co4: #FF9D40;
+$co5: #CC5314;
+
+/*
+ * Fonts
+ */
+$light: 200;
+$regular: 300;
+$bold: 400;
+
+/*
+ * Pixels
+ */
+$border_ra: 5px;
+$padd: 5px;
+
+body {
+    background: $bg;
+    font-family: 'Alegreya Sans', sans-serif;
+    font-weight: $regular;
+}
+ul {
+    list-style: none;
+    padding: 0px;
+    li {
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-weight: $regular;
+    font-size: 1.2em;
+    margin: 0px;
+}
+
+.table {
+    border-radius: $border_ra;
+    border: 1px solid $border_co;
+    padding: $padd;
+}
+.player {
+    background-color: $cont_bg;
+    margin: 5px;
+    min-width: 200px;
+    min-height: 200px;
+    border-radius: $border_ra;
+    float: left;
+    padding: $padd;
+    h1 {
+        font-size: 2em;
+        font-weight: 200;
+    }
+}

@@ -2,19 +2,25 @@
 <html>
 <head>
     <title>Arschloch for the Browser and hopfully online</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&subset=latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
 </head>
 <body data-ng-app="app" data-ng-controller="AppCtrl as app">
     <a href="/test/test.html">Test</a>
+    <h1>Arschloch all Tables</h1>
 
     <ul>
-        <li data-ng-repeat="table in app.tables">
-            {{table._id}} <br /> {{table.players}}
+        <li class="table" data-ng-repeat="table in app.tables">
+            {{table._id}}
         </li>
     </ul>
 
     <ul>
-        <li data-ng-repeat="player in app.players">
-            {{player.playerName}} <br /> {{player._id}}
+        <li class="player" data-ng-repeat="player in app.players">
+            <h1>{{player.playerName}}</h1>
+            <p>{{player._id}}</p>
         </li>
     </ul>
 

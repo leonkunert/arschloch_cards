@@ -7,6 +7,8 @@ var mongoose   = require('mongoose')
 var playerSchema = mongoose.Schema({
     playerName : String,
     active     : Boolean,
+    last_on    : Date,
+    online     : Boolean,
     tableId    : ObjectId,
     cards      : [
       { card   : String }
