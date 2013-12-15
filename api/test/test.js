@@ -2,9 +2,8 @@
 // Require Assert for assertation
 var assert    = require("assert")
     , request = require("supertest")
-    , app     = require("/api/app.js")
-    , cards   = require("/api/schemas/cards.js")
-    ,table ,player;
+    , app     = require("../app.js")
+    , cards   = require("../schemas/cards.js");
 
 describe('Simple', function() {
     assert.equal(true, true, 'True is not True');
@@ -29,7 +28,8 @@ describe('API', function() {
 
 
     /*------ ADDING ------*/
-    describe('ADDING', function (table, player) {
+
+    describe('ADDING', function () {
         it('Creating a new Table should respond with json', function(done) {
             request(app)
                 .post('/v1/add/table')
@@ -37,7 +37,7 @@ describe('API', function() {
                 .expect('Content-Type', /json/)
                 .expect(200, /"passPlayers"/)
                 .end(function(err, res) {
-                    table = res.body;
+                    exports.table = res.body;
                     done();
                 });
         });
@@ -49,7 +49,7 @@ describe('API', function() {
                 .expect('Content-Type', /json/)
                 .expect(200, /"playerName": "😌"/)
                 .end(function(err, res) {
-                    player = res.body;
+                    exports.player = res.body;
                     done();
                 });
         });
@@ -57,13 +57,14 @@ describe('API', function() {
     });
 
     /*------ UPDATE ------*/
-    describe('UPDATE', function (table, player) {
+
+    describe('UPDATE', function () {
         it('Should be updating a Table with a Player', function(done) {
             request(app)
-                .post('/v1/add/table/'+table._id+'/'+player._id)
+                .post('/v1/add/table/'+exports.table._id+'/'+exports.player._id)
                 .end(function(err, res) {
-                    assert.equal(res.body.tableId, table._id, 'Table Id is not the Same as in the DB');
-                    assert.equal(res.body._id, player._id, 'Player Id is not the Same as in the DB');
+                    assert.equal(res.body.tableId, exports.table._id, 'Table Id is not the Same as in the DB');
+                    assert.equal(res.body._id, exports.player._id, 'Player Id is not the Same as in the DB');
                     done();
                 });
         });
@@ -71,56 +72,66 @@ describe('API', function() {
 
     /*------ GET ------*/
 
-    it('Should get All tables', function (done) {
-        request(app)
-            .get('/v1/tables')
-            .expect('Content-Type', /json/)
-            .expect(200, /"passPlayers"/, done);
-    });
+    describe('GETTING', function () {
+        it('Should get All tables', function (done) {
+            request(app)
+                .get('/v1/tables')
+                .expect('Content-Type', /json/)
+                .expect(200, /"passPlayers"/, done);
+        });
 
-    it('Should get One Table', function (done) {
-        request(app)
-            .get('/v1/table/'+table._id)
-            .expect('Content-Type', /json/)
-            .expect(200, /"_id"/, done);
-    });
+        it('Should get One Table', function (done) {
+            request(app)
+                .get('/v1/table/'+exports.table._id)
+                .expect('Content-Type', /json/)
+                .expect(200, /"_id"/, done);
+        });
 
-    it('Should get All Players', function (done) {
-        request(app)
-            .get('/v1/players')
-            .expect('Content-Type', /json/)
-            .expect(200, /"playerName": "😌"/, done);
-    });
+        it('Should get All Players', function (done) {
+            request(app)
+                .get('/v1/players')
+                .expect('Content-Type', /json/)
+                .expect(200, /"playerName": "😌"/, done);
+        });
 
-    it('Should get One Player', function (done) {
-        request(app)
-            .get('/v1/player/'+player._id)
-            .expect('Content-Type', /json/)
-            .expect(200, /"_id"/, done);
+        it('Should get One Player', function (done) {
+            request(app)
+                .get('/v1/player/'+exports.player._id)
+                .expect('Content-Type', /json/)
+                .expect(200, /"_id"/, done);
+        });
     });
 
 
     /*------ DELETE ------*/
 
-    it('should delete the Table', function (done) {
-        request(app)
-            .post('/v1/rm/table/id/'+table._id)
-            .expect('Content-Type', /json/)
-            .expect(200, '{\n  "success": true\n}', done);
+    describe('DELETING', function () {
+        it('should delete the Table', function (done) {
+            request(app)
+                .post('/v1/rm/table/id/'+exports.table._id)
+                .expect('Content-Type', /json/)
+                .expect(200, '{\n  "success": true\n}', done);
+        });
+
+        it('should delete the Player', function (done) {
+            request(app)
+                .post('/v1/rm/player/id/'+exports.player._id)
+                .expect('Content-Type', /json/)
+                .expect(200, '{\n  "success": true\n}', done);
+        });
     });
 
-    it('should delete the Table', function (done) {
-        request(app)
-            .post('/v1/rm/player/id/'+player._id)
-            .expect('Content-Type', /json/)
-            .expect(200, '{\n  "success": true\n}', done);
-    });
 
     /*------ CARDS ------*/
 
-    // Can I create Cards
-    it('should create all cards ', function (done) {
-        assert.equal(new cards.playingCards(), "expected");
+    describe('CARDS', function () {
+        // Can I create Cards
+        it('should create all cards ', function (done) {
+            var deck = new cards.playingCards();
+            assert.equal(deck.cards.length, 52, "We need 52 cards to play");
+            assert.equal(typeof deck.conf, "object", "We could use a configuration oject over here");
+            done();
+        });
     });
 
 });

@@ -55,6 +55,13 @@ exports.addPlayer = function(req, res) {
     }
 }
 
+// Create a new Deck
+// TODO: Add Deck to table
+exports.getDeck = function(req, res) {
+    var deck = new cards.playingCards();
+    res.json(deck);
+}
+
 
 /*---- Updating things ----*/
 

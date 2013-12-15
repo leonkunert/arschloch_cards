@@ -39,6 +39,8 @@ app.get('/v1/table/:tableId', api.getTable);
 // Players
 app.get('/v1/players', api.listPlayers);
 app.get('/v1/player/:playerId', api.getPlayer);
+// Decks
+app.get('/v1/decks', api.getDeck);
 
 app.listen(3003);
 

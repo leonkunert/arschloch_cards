@@ -4,11 +4,6 @@
 
 exports.playingCards = function(conf) {
     var c = exports.objExtend(exports.playingCards.defaults, conf);
-    if (! (this instanceof exports.playingCards)) {
-        // in jquery mode
-        c.el = $(this); // capture the context (this will be the cardTable/Deck element)
-        return new exports.playingCards(c);
-    }
     this.conf = c;
     this.init();
     if (this.conf.startShuffled) {
@@ -33,13 +28,6 @@ exports.playingCards.prototype.init = function() {
                 this.cards[l] = new exports.playingCards.card(r, o.ranks[r], s, o.suits[s]);
             }
         }
-        /* jokers
-         * Don't need them right now but you never know
-        for (j = 0; j < o.jokers; j++) {
-            l = this.cards.length;
-            // suit will always be 1 or 2
-            this.cards[l] = new exports.playingCards.card("N", o.jokerText, (j % 2) + 1, '');
-        }*/
     }
 };
 
@@ -90,6 +78,24 @@ exports.playingCards.card = function(rank, rankString, suit, suitString) {
     this.suitString = suitString;
     return this;
 }
+
+exports.playingCards.prototype.shuffle = function(n) {
+    if (!n) {
+        n = 5;
+    }
+    var l = this.cards.length,
+        r,tmp,i,j;
+
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < l; j++) {
+            r = Math.floor(Math.random() * l);
+            tmp = this.cards[j];
+            this.cards[j] = this.cards[r];
+            this.cards[r] = tmp;
+        }
+    }
+};
+
 
 // Helpers
 
