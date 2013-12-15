@@ -104,6 +104,16 @@ describe('API', function () {
                 });
         });
 
+        it('Should get One Table with the right num of passive players on it', function (done) {
+            request(app)
+                .get('/v1/table/' + exports.table._id)
+                .expect('Content-Type', /json/)
+                .end(function (err, res) {
+                    assert.equal(res.body[0].passPlayers.length, res.body[1].length);
+                    done();
+                });
+        });
+
         it('Should get All Players', function (done) {
             request(app)
                 .get('/v1/players')

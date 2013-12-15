@@ -33,7 +33,7 @@ exports.playingCards.prototype.init = function () {
 
 exports.playingCards.defaults = {
     "decks": 1,
-    "startShuffled": false,
+    "startShuffled": true,
     "jokers": 2,
     "jokerText": "Joker",
     "ranks": {

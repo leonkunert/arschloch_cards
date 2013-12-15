@@ -83,7 +83,7 @@ exports.addPlayerToTable = function (req, res) {
             }
             table.findByIdAndUpdate(
                 {_id: req.params.tableId},
-                {$push: {players: req.params.playerId}},
+                {$push: {players: req.params.playerId, passPlayers: req.params.playerId}},
                 {safe: true, upsert: true}
             ).exec();
             res.json(tModel);
