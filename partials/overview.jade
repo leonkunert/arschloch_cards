@@ -1,0 +1,11 @@
+.overview
+    a(href='/test/test.html') Test
+        h1 Arschloch all Tables
+        | {{message}}
+        ul
+            li.table(data-ng-repeat='table in tables')
+                a(href='/table/{{table._id}}') {{table._id}}
+        ul
+            li.player(data-ng-repeat='player in players')
+                h1 {{player.playerName}}
+                p {{player._id}}

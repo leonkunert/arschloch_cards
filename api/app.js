@@ -42,6 +42,9 @@ app.get('/v1/player/:playerId', api.getPlayer);
 // Decks
 app.get('/v1/deck', api.getDeck);
 
+app.get('/partials/:name', api.partials);
+app.get('*', api.index);
+
 app.listen(3003);
 
 console.log("Express server listening on port 3003");

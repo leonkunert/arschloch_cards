@@ -19,6 +19,7 @@
 var table    = require('./schemas/table.js')
     , player = require('./schemas/player.js')
     , cards  = require('./schemas/cards.js')
+    , path   = require('path')
     , auth   = require('./auth.js');
 
 /*---- Adding things ----*/
@@ -160,4 +161,14 @@ exports.deletePlayerById = function (req, res) {
 exports.deletePlayerByName = function (req, res) {
     // Remove command
     player.findOneAndRemove({name: req.params.playerName}).exec();
+};
+
+// Partials and index serving
+exports.index = function (req, res) {
+    res.render('/../index');
+};
+
+exports.partials = function (req, res) {
+    var name = req.params.name;
+    res.render('/../partials/' + name);
 };

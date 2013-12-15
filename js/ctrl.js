@@ -2,16 +2,16 @@ var app = angular.module("app", ['ngRoute']);
 
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
-        .when('/', {
-            templateUrl: 'partials/overview.html',
+        .when('/overview', {
+            templateUrl: '/partials/overview.html',
             controller: 'OverviewCtrl'
         })
         .when('/table/:tableId', {
-            templateUrl: 'partials/table.html',
+            templateUrl: '/partials/table.html',
             controller: 'TableCtrl'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/overview'
         });
 }]);
 
