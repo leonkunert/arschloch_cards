@@ -2,7 +2,8 @@
 // Require Assert for assertation
 var assert    = require("assert")
     , request = require("supertest")
-    , app     = require("../app.js")
+    , app     = require("/api/app.js")
+    , cards   = require("/api/schemas/cards.js")
     ,table ,player;
 
 describe('Simple', function() {
@@ -11,60 +12,61 @@ describe('Simple', function() {
 
 describe('API', function() {
     /*------ ERRORS ------*/
-    it('Creating a new Player without auth should respond with 403', function(done) {
-        request(app)
-            .post('/v1/add/table')
-            .expect(403, /Authentication failed/, done);
-    });
 
-    it('Creating a new Table without auth should respond with 403', function(done) {
-        request(app)
-            .post('/v1/add/table')
-            .expect(403, /Authentication failed/, done);
+    describe('ERRORS', function () {
+        it('Creating a new Player without auth should respond with 403', function(done) {
+            request(app)
+                .post('/v1/add/table')
+                .expect(403, /Authentication failed/, done);
+        });
+
+        it('Creating a new Table without auth should respond with 403', function(done) {
+            request(app)
+                .post('/v1/add/table')
+                .expect(403, /Authentication failed/, done);
+        });
     });
 
 
     /*------ ADDING ------*/
+    describe('ADDING', function (table, player) {
+        it('Creating a new Table should respond with json', function(done) {
+            request(app)
+                .post('/v1/add/table')
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test:true})
+                .expect('Content-Type', /json/)
+                .expect(200, /"passPlayers"/)
+                .end(function(err, res) {
+                    table = res.body;
+                    done();
+                });
+        });
 
-    it('Creating a new Table should respond with json', function(done) {
-        request(app)
-            .post('/v1/add/table')
-            .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test:true})
-            .expect('Content-Type', /json/)
-            .expect(200, /"passPlayers"/)
-            .end(function(err, res) {
-                table = res.body;
-                done();
-            });
+        it('Creating a new Player should respond with json', function(done) {
+            request(app)
+                .post("/v1/add/player")
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test:true, playerName: "😌"})
+                .expect('Content-Type', /json/)
+                .expect(200, /"playerName": "😌"/)
+                .end(function(err, res) {
+                    player = res.body;
+                    done();
+                });
+        });
+
     });
-
-    it('Creating a new Player should respond with json', function(done) {
-        request(app)
-            .post("/v1/add/player")
-            .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test:true, playerName: "😌"})
-            .expect('Content-Type', /json/)
-            .expect(200, /"playerName": "😌"/)
-            .end(function(err, res) {
-                player = res.body;
-                done();
-            });
-    });
-
-    it('should create a new Deck of cards', function (done) {
-        done();
-    });
-
 
     /*------ UPDATE ------*/
-
-    it('Should be updating a Table with a Player', function(done) {
-        request(app)
-            .post('/v1/add/table/'+table._id+'/'+player._id)
-            .end(function(err, res) {
-                assert.equal(res.body.tableId, table._id, 'Table Id is not the Same as in the DB');
-                assert.equal(res.body._id, player._id, 'Player Id is not the Same as in the DB');
-                done();
-            });
+    describe('UPDATE', function (table, player) {
+        it('Should be updating a Table with a Player', function(done) {
+            request(app)
+                .post('/v1/add/table/'+table._id+'/'+player._id)
+                .end(function(err, res) {
+                    assert.equal(res.body.tableId, table._id, 'Table Id is not the Same as in the DB');
+                    assert.equal(res.body._id, player._id, 'Player Id is not the Same as in the DB');
+                    done();
+                });
+        });
     });
 
     /*------ GET ------*/
@@ -113,4 +115,12 @@ describe('API', function() {
             .expect('Content-Type', /json/)
             .expect(200, '{\n  "success": true\n}', done);
     });
+
+    /*------ CARDS ------*/
+
+    // Can I create Cards
+    it('should create all cards ', function (done) {
+        assert.equal(new cards.playingCards(), "expected");
+    });
+
 });

@@ -21,9 +21,6 @@ var table    = require('./schemas/table.js')
     , cards  = require('./schemas/cards.js')
     , auth   = require('./auth.js');
 
-    console.log(new cards.playingCards());
-
-
 /*---- Adding things ----*/
 
 // Create a New Table with MaxPlayers
