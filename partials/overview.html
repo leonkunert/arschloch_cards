@@ -1,17 +1,13 @@
-<div class="overview">
-    <a href="/test/test.html">Test</a>
-    <h1>Arschloch all Tables</h1>
-    {{message}}
-    <ul>
-        <li class="table" data-ng-repeat="table in tables">
-            <a href="/table/{{table._id}}">{{table._id}}</a>
-        </li>
-    </ul>
 
-    <ul>
-        <li class="player" data-ng-repeat="player in players">
-            <h1>{{player.playerName}}</h1>
-            <p>{{player._id}}</p>
-        </li>
-    </ul>
+<div class="overview">
+  <h1>Arschloch all Tables</h1>
+  <ul>
+    <li data-ng-repeat="table in tables" class="table"><a href="/table/{{table._id}}">{{table._id}}</a></li>
+  </ul>
+  <ul>
+    <li data-ng-repeat="player in players" class="player">
+      <h1>{{player.playerName}}</h1>
+      <p>{{player._id}}</p>
+    </li>
+  </ul>
 </div>

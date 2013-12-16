@@ -1,8 +1,8 @@
 var app = angular.module("app", ['ngRoute']);
 
-app.config(['$routeProvider', function ($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
-        .when('/overview', {
+        .when('/', {
             templateUrl: '/partials/overview.html',
             controller: 'OverviewCtrl'
         })
@@ -11,11 +11,17 @@ app.config(['$routeProvider', function ($routeProvider) {
             controller: 'TableCtrl'
         })
         .otherwise({
-            redirectTo: '/overview'
+            redirectTo: '/'
         });
+
+    $locationProvider.html5Mode(true);
 }]);
 
-app.controller("OverviewCtrl", ['$scope', '$http', function ($scope, $http) {
+app.config(function ($logProvider) {
+    $logProvider.debugEnabled(true);
+});
+
+app.controller("OverviewCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
 
     // Getting all Tables
     $http.get("http://localhost:3003/v1/tables")
@@ -32,9 +38,11 @@ app.controller("OverviewCtrl", ['$scope', '$http', function ($scope, $http) {
             $scope.players = data;
             console.log($scope);
         });
+    $log.debug('using overview ctrl');
 }]);
 
-app.controller("TableCtrl", ['$scope', '$routeParams', '$http', function ($scope, $routeParams, $http) {
+app.controller("TableCtrl", ['$scope', '$routeParams', '$http', '$log', function ($scope, $routeParams, $http, $log) {
     $scope.message = "Table";
+    console.log($routeParams);
 
 }]);
