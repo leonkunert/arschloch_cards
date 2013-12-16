@@ -73,10 +73,14 @@ app.controller("addTableCtrl", ['$scope', '$http', '$log', function ($scope, $ht
     };
 }]);
 
-app.controller("addPlayerCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
+app.controller("addPlayerCtrl", ['$scope', '$http', '$log', '$location', function ($scope, $http, $log, $location) {
     $scope.message = "Add Player";
     $scope.addPlayer = function (playerName) {
-        console.log(playerName);
+        $http.post("http://localhost:3003/v1/add/player", {"playerName": playerName, "authKey": "dsd"})
+            .success(function (data) {
+                console.log(data);
+                $location.path('/');
+            });
     };
     $log.debug('using Player ctrl');
 }]);

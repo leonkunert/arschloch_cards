@@ -52,6 +52,9 @@ p {
     background-color: $cont_bg;
     padding: $padd;
     margin: 5px;
+    .TableDel {
+        float: right;
+    }
 }
 .player {
     background-color: $cont_bg;
