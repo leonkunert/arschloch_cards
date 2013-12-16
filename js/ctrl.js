@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute']);
+var app = angular.module("app", ['ngRoute', 'ngCookies']);
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -33,7 +33,11 @@ app.config(function ($logProvider) {
     $logProvider.debugEnabled(true);
 });
 
-app.controller("OverviewCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
+app.controller("OverviewCtrl", ['$scope', '$cookies', '$http', '$log', function ($scope, $cookies, $http, $log) {
+
+    var username = $cookies.username;
+
+    $cookies.username = "Hallo Cookie";
 
     // Getting all Tables
     $http.get("http://localhost:3003/v1/tables")
