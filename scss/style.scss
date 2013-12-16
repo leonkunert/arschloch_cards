@@ -26,6 +26,7 @@ body {
     background: $bg;
     font-family: 'Alegreya Sans', sans-serif;
     font-weight: $regular;
+    font-size: 1.2em;
 }
 ul {
     list-style: none;
@@ -42,7 +43,6 @@ h5,
 h6,
 p {
     font-weight: $regular;
-    font-size: 1.2em;
     margin: 0px;
 }
 
@@ -62,7 +62,7 @@ p {
     float: left;
     padding: $padd;
     h1 {
-        font-size: 2em;
+        font-size: 1.5em;
         font-weight: 200;
     }
 }

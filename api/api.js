@@ -108,7 +108,7 @@ exports.getTable = function (req, res) {
     table.findById(req.params.tableId, function (err, table) {
         // If no Table with that id is found
         if (table === null) {
-            res.json([]);
+            res.status(403).json({"error": "Table not found"});
         }
         else {
             player.find({tableId: table._id}, function (err, players) {

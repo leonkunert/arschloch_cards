@@ -1,8 +1,10 @@
 
 <div class="overview">
-  <h1>Arschloch all Tables</h1>
+  <h1>Arschloch all Tables</h1><a href="/add/table">+ Add Table</a><br/><a href="/add/player">+ Add Player</a>
   <ul>
-    <li data-ng-repeat="table in tables" class="table"><a href="/table/{{table._id}}">{{table._id}}</a></li>
+    <li data-ng-repeat="table in tables" class="table">
+      <p><a href="/table/{{table._id}}">{{table._id}}</a></p>
+    </li>
   </ul>
   <ul>
     <li data-ng-repeat="player in players" class="player">

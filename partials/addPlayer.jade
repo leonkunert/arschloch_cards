@@ -1,0 +1,7 @@
+.addPlayerView
+    h1 {{message}}
+    form
+        p Name
+        // TODO: Deactivate button until name is valid
+        input(type='text', data-ng-model="player.playerName", required)
+        input(type='submit', ng-click="addPlayer(player.playerName)", value='Add Player')

@@ -10,6 +10,14 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             templateUrl: '/partials/table.html',
             controller: 'TableCtrl'
         })
+        .when('/add/table', {
+            templateUrl: '/partials/addTable.html',
+            controller: 'addTableCtrl'
+        })
+        .when('/add/player', {
+            templateUrl: '/partials/addPlayer.html',
+            controller: 'addPlayerCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -26,7 +34,6 @@ app.controller("OverviewCtrl", ['$scope', '$http', '$log', function ($scope, $ht
     // Getting all Tables
     $http.get("http://localhost:3003/v1/tables")
         .success(function (data) {
-            console.log(data);
             $scope.tables = data;
         });
     $scope.message = "Overview";
@@ -34,15 +41,42 @@ app.controller("OverviewCtrl", ['$scope', '$http', '$log', function ($scope, $ht
     // Getting all Players
     $http.get("http://localhost:3003/v1/players")
         .success(function (data) {
-            console.log(data);
             $scope.players = data;
-            console.log($scope);
         });
     $log.debug('using overview ctrl');
 }]);
 
 app.controller("TableCtrl", ['$scope', '$routeParams', '$http', '$log', function ($scope, $routeParams, $http, $log) {
     $scope.message = "Table";
-    console.log($routeParams);
+    if ($routeParams.tableId !== "undefined") {
+        $http.get("http://localhost:3003/v1/table/" + $routeParams.tableId)
+            .success(function (data) {
+                $scope.table   = data[0];
+                $scope.players = data[1];
+            })
+            .error(function (data) {
+                // TODO: Handle Error
+        });
+    }
+    $log.debug('using Table ctrl');
+}]);
 
+app.controller("addTableCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
+    $scope.message = "Add Table";
+    $log.debug('using Table ctrl');
+    $scope.addTable = function (maxPlayers) {
+        console.log(maxPlayers);
+        $http.post("http://localhost:3003/v1/add/table", {"maxPlayers": maxPlayers, "authKey": "dsd"})
+            .success(function (data) {
+                console.log(data);
+            });
+    };
+}]);
+
+app.controller("addPlayerCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
+    $scope.message = "Add Player";
+    $scope.addPlayer = function (playerName) {
+        console.log(playerName);
+    };
+    $log.debug('using Player ctrl');
 }]);

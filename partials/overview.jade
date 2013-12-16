@@ -1,9 +1,13 @@
 .overview
-        h1 Arschloch all Tables
-        ul
-            li.table(data-ng-repeat='table in tables')
+    h1 Arschloch all Tables
+    a(href='/add/table') + Add Table
+    br
+    a(href='/add/player') + Add Player
+    ul
+        li.table(data-ng-repeat='table in tables')
+            p
                 a(href='/table/{{table._id}}') {{table._id}}
-        ul
-            li.player(data-ng-repeat='player in players')
-                h1 {{player.playerName}}
-                p {{player._id}}
+    ul
+        li.player(data-ng-repeat='player in players')
+            h1 {{player.playerName}}
+            p {{player._id}}

@@ -1,0 +1,10 @@
+
+<div class="addPlayerView">
+  <h1>{{message}}</h1>
+  <form>
+    <p>Name</p>
+    <!-- TODO: Deactivate button until name is valid-->
+    <input type="text" data-ng-model="player.playerName" required="required"/>
+    <input type="submit" ng-click="addPlayer(player.playerName)" value="Add Player"/>
+  </form>
+</div>
