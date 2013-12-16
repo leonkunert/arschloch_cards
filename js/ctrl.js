@@ -18,6 +18,10 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             templateUrl: '/partials/addPlayer.html',
             controller: 'addPlayerCtrl'
         })
+        .when('/com/table/:tableId', {
+            templateUrl: '/partials/addPlayerToTable.html',
+            controller: 'addPlayerToTableCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
@@ -61,7 +65,7 @@ app.controller("TableCtrl", ['$scope', '$routeParams', '$http', '$log', function
     $log.debug('using Table ctrl');
 }]);
 
-app.controller("addTableCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
+app.controller("addTableCtrl", ['$scope', '$http', '$log', '$location', function ($scope, $http, $log, $location) {
     $scope.message = "Add Table";
     $log.debug('using Table ctrl');
     $scope.addTable = function (maxPlayers) {
@@ -69,6 +73,7 @@ app.controller("addTableCtrl", ['$scope', '$http', '$log', function ($scope, $ht
         $http.post("http://localhost:3003/v1/add/table", {"maxPlayers": maxPlayers, "authKey": "dsd"})
             .success(function (data) {
                 console.log(data);
+                $location.path('/');
             });
     };
 }]);
@@ -83,4 +88,16 @@ app.controller("addPlayerCtrl", ['$scope', '$http', '$log', '$location', functio
             });
     };
     $log.debug('using Player ctrl');
+}]);
+
+app.controller("addPlayerToTableCtrl", ['$scope', '$http', '$log', '$location', function ($scope, $http, $log, $location) {
+    $scope.message = "Add Player to Table";
+    $scope.addPlayer = function (playerId) {
+        $http.post("http://localhost:3003/v1/add/table/" + $routeParams.tableId + "/" + playerId, {"authKey": "dsd"})
+            .success(function (data) {
+                console.log(data);
+                $location.path('/table/' + $routeParams.tableId);
+            });
+    };
+    $log.debug('using Player to table ctrl');
 }]);

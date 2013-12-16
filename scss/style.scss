@@ -59,6 +59,7 @@ p {
 .player {
     background-color: $cont_bg;
     margin: 5px;
+    position: relative;
     min-width: 200px;
     min-height: 200px;
     border-radius: $border_ra;
@@ -67,5 +68,10 @@ p {
     h1 {
         font-size: 1.5em;
         font-weight: 200;
+    }
+    .PlayerDel {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
     }
 }
