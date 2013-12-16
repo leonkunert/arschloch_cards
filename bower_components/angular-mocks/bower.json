@@ -1,7 +1,7 @@
 {
-  "name": "angular-route",
+  "name": "angular-mocks",
   "version": "1.2.6-build.1992+sha.d5c5e2b",
-  "main": "./angular-route.js",
+  "main": "./angular-mocks.js",
   "dependencies": {
     "angular": "1.2.6-build.1992+sha.d5c5e2b"
   }
