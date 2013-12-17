@@ -165,5 +165,5 @@ exports.deletePlayerByName = function (req, res) {
 
 // Partials and index serving
 exports.index = function (req, res) {
-    res.sendfile(path.resolve(__dirname + '/../index.html'));
+    res.sendfile(path.resolve(__dirname + '/../app/index.html'));
 };
