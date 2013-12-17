@@ -1,4 +1,4 @@
-var app = angular.module("app", ['ngRoute']);
+var app = angular.module("app", ['ngRoute', 'ngCookies']);
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -33,6 +33,7 @@ app.config(function ($logProvider) {
     $logProvider.debugEnabled(true);
 });
 
+app.controller("OverviewCtrl", ['$scope', '$cookies', '$http', '$log', function ($scope, $cookies, $http, $log) {
 
 // PROVIDER / SERVICE / FACTORY
 
