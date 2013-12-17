@@ -33,20 +33,47 @@ app.config(function ($logProvider) {
     $logProvider.debugEnabled(true);
 });
 
-app.controller("OverviewCtrl", ['$scope', '$http', '$log', function ($scope, $http, $log) {
 
+// PROVIDER / SERVICE / FACTORY
+
+app.factory('playerFactory', ['$http', function ($http) {
+    // Getting all Players
+    playerFactory = {};
+
+    playerFactory.getPlayers = function () {
+        return $http.get("http://localhost:3003/v1/players");
+    };
+
+    return playerFactory;
+}]);
+
+app.factory('tableFactory', ['$http', function ($http) {
+    // Getting all Players
+    tableFactory = {};
+
+    tableFactory.getTables = function () {
+        return $http.get("http://localhost:3003/v1/tables");
+    };
+
+    return tableFactory;
+}]);
+
+
+app.controller("OverviewCtrl",
+    ['$scope', '$http', '$log', 'playerFactory', 'tableFactory',
+    function ($scope, $http, $log, playerFactory, tableFactory) {
+
+    $scope.message = "Overview";
     // Getting all Tables
-    $http.get("http://localhost:3003/v1/tables")
+    tableFactory.getTables()
         .success(function (data) {
             $scope.tables = data;
         });
-    $scope.message = "Overview";
-
-    // Getting all Players
-    $http.get("http://localhost:3003/v1/players")
+    playerFactory.getPlayers()
         .success(function (data) {
             $scope.players = data;
         });
+
     $log.debug('using overview ctrl');
 }]);
 
@@ -92,12 +119,16 @@ app.controller("addPlayerCtrl", ['$scope', '$http', '$log', '$location', functio
 
 app.controller("addPlayerToTableCtrl", ['$scope', '$http', '$log', '$location', function ($scope, $http, $log, $location) {
     $scope.message = "Add Player to Table";
-    $scope.addPlayer = function (playerId) {
+    /*$scope.addPlayer = function (playerId) {
         $http.post("http://localhost:3003/v1/add/table/" + $routeParams.tableId + "/" + playerId, {"authKey": "dsd"})
             .success(function (data) {
                 console.log(data);
                 $location.path('/table/' + $routeParams.tableId);
             });
-    };
+    };*/
+    playerFactory.getPlayers()
+        .success(function (data) {
+            $scope.players = data;
+        });
     $log.debug('using Player to table ctrl');
 }]);
