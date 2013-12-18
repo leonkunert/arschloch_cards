@@ -6,7 +6,7 @@ var express    = require('express')
 mongoose.connect('mongodb://localhost/arsch');
 
 app.configure(function () {
-    app.use(express.static(__dirname + '/../'));
+    app.use(express.static(__dirname + '/../app'));
     app.use(express.methodOverride());
     app.use(express.bodyParser());
 });
