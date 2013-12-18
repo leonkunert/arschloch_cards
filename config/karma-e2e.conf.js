@@ -10,14 +10,14 @@ module.exports = function(config){
 
     autoWatch : false,
 
-    browsers : ['Chrome'],
+    browsers: ['PhantomJS'],
 
     frameworks: ['ng-scenario'],
 
     singleRun : true,
 
     proxies : {
-      '/': 'http://localhost:8000/'
+      '/': 'http://localhost:3003/'
     },
 
     plugins : [
@@ -25,7 +25,8 @@ module.exports = function(config){
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
-            'karma-ng-scenario'
+            'karma-ng-scenario',
+            'karma-phantomjs-launcher'
             ],
 
     junitReporter : {

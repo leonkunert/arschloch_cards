@@ -15,17 +15,17 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
 
     files: [
-      'app/lib/angular/angular.js',
-      'app/lib/angular/angular-*.js',
-      'test/lib/angular/angular-mocks.js',
-      'app/js/**/*.js',
-      'test/unit/**/*.js'
+        'app/lib/angular/angular.js',
+        'app/lib/angular/angular-*.js',
+        'test/lib/angular/angular-mocks.js',
+        'app/js/**/*.js',
+        'test/unit/**/*.js'
     ],
 
     exclude: [
-      'app/lib/angular/angular-loader.js',
-      'app/lib/angular/*.min.js',
-      'app/lib/angular/angular-scenario.js'
+        'app/lib/angular/angular-loader.js',
+        'app/lib/angular/*.min.js',
+        'app/lib/angular/angular-scenario.js'
     ],
 
 
