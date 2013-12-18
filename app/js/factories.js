@@ -22,4 +22,9 @@ angular.module('arschloch.factories', [])
     };
 
     return tableFactory;
-}]);
+}])
+
+// Cookie Factory
+.factory('cookieFactory', [], function () {
+    return window.document;
+});

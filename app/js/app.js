@@ -1,6 +1,5 @@
 'use strict';
 // Declare app level module which depends on and services
-console.log('message2');
 angular.module('arschloch', [
     'ngRoute',
     'ngCookies',

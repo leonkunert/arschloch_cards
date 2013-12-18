@@ -1,5 +1,4 @@
 'use strict';
-console.log('message');
 /* Controllers */
 
 angular.module('arschloch.controllers', [])
@@ -19,6 +18,10 @@ angular.module('arschloch.controllers', [])
         .success(function (data) {
             $scope.players = data;
         });
+
+    $scope.deleteTable = function () {
+        console.log('message');
+    }
 
     $log.debug('using overview ctrl');
 }])
