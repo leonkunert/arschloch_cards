@@ -5,15 +5,18 @@
   <link href="http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&amp;subset=latin-ext" rel="stylesheet" type="text/css"/>
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
-<body><a href="/test/test.html">Test</a><br/><a href="/">Übersicht</a>
+<body>
+  <noscript>
+    <h1>ohne Javascript geht hier nischt</h1>
+  </noscript><a href="/test/test.html">Test</a><br/><a href="/">Übersicht</a>
   <div data-ng-view="" class="content"></div>
   <!-- Loading Angular-->
   <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="/js/controllers.js"></script>
+  <script type="text/javascript" src="/js/factories.js"></script>
   <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
   <script type="text/javascript" src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
   <!-- Loading own JS-->
   <!--script(type='text/javascript', src='/js/ctrl.js')-->
   <script type="text/javascript" src="/js/app.js"></script>
-  <script type="text/javascript" src="/js/factories.js"></script>
 </body>

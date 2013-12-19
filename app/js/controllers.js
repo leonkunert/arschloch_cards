@@ -5,8 +5,8 @@ angular.module('arschloch.controllers', [])
 
 // Overview Controller
 .controller("OverviewCtrl",
-    ['$scope', '$http', '$log', 'playerFactory', 'tableFactory',
-    function ($scope, $http, $log, playerFactory, tableFactory) {
+    ['$scope', '$http', '$log', 'playerFactory', 'tableFactory', 'cookieFactory',
+    function ($scope, $http, $log, playerFactory, tableFactory, cookieFactory) {
 
     $scope.message = "Overview";
     // Getting all Tables
@@ -22,6 +22,10 @@ angular.module('arschloch.controllers', [])
     $scope.deleteTable = function () {
         console.log('message');
     }
+
+    if(cookieFactory.setUsernameCookie('Hallo Cookiesdfj')) {
+        $location.path('/');
+    };
 
     $log.debug('using overview ctrl');
 }])
@@ -89,4 +93,9 @@ angular.module('arschloch.controllers', [])
             $scope.players = data;
         });
     $log.debug('using Player to table ctrl');
-}]);
+}])
+
+// Errors
+.controller("errorCtrl", [ , function(){
+    $scope.message = "Error. WHAT'S HAPPENING. Have you Cookies and Javascript enabled???";
+}])

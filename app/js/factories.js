@@ -25,6 +25,32 @@ angular.module('arschloch.factories', [])
 }])
 
 // Cookie Factory
-.factory('cookieFactory', [], function () {
-    return window.document;
-});
+.factory('cookieFactory', ['$http', function ($http) {
+    cookieFactory = {};
+
+    cookieFactory.getUsernameCookie = function () {
+        console.log(window.document.cookie);
+        if (!document.cookie) {
+            alert('BAD NEWS: Cookies have to be enabled');
+            return false;
+        } else {
+            return window.document.cookie;
+        }
+    };
+
+    cookieFactory.setUsernameCookie = function (username) {
+        if (!document.cookie) {
+            // If Cookies are disabled
+            alert('BAD NEWS: Cookies have to be enabled');
+            return false;
+        } else {
+            var date    = new Date();
+            var expires = date.getTime() + (365 * 24 * 60 * 60 * 1000);
+            date.setTime(expires);
+            window.document.cookie = "username=" + username + "; expires=" + date.toGMTString();
+            return true;
+        }
+    };
+
+    return cookieFactory;
+}]);

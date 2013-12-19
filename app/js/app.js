@@ -18,8 +18,9 @@ angular.module('arschloch', [
         .when('/add/table', {templateUrl: '/partials/addTable.html', controller: 'addTableCtrl'})
         .when('/add/player', {templateUrl: '/partials/addPlayer.html', controller: 'addPlayerCtrl'})
         .when('/com/table/:tableId', {templateUrl: '/partials/addPlayerToTable.html', controller: 'addPlayerToTableCtrl'})
+        .when('/error', {templateUrl: '/partials/error.html', controller: 'errorCtrl'})
 
-        .otherwise({redirectTo: '/'});
+        .otherwise({redirectTo: '/error'});
     $locationProvider.html5Mode(true);
 }])
 
