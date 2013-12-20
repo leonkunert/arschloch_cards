@@ -9,6 +9,14 @@ angular.module('arschloch.controllers', [])
     function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
 
     $scope.message = "Overview";
+
+    if (cookieFactory.checkCookie()) {
+        if (cookieFactory.getCookie('username') == '') {
+            $location.path('/register');
+        }
+    }
+
+
     // Getting all Tables
     tableFactory.getTables()
         .success(function (data) {
@@ -20,12 +28,16 @@ angular.module('arschloch.controllers', [])
         });
 
     $scope.deleteTable = function () {
-        console.log('message');
+        console.log(this);
+        tableFactory.rmTable(this.table._id)
+        .success(function (data) {
+        });
+        for (var table in $scope.tables) {
+            if (this.table._id = $scope.tables[table]._id) {
+                $scope.tables.splice(table, 1);
+            }
+        }
     }
-
-    if(!cookieFactory.setUsernameCookie('Hallo Cookiesdfj')) {
-        $location.path('/error');
-    };
 
     $log.debug('using overview ctrl');
 }])

@@ -21,6 +21,10 @@ angular.module('arschloch.factories', [])
         return $http.get("http://localhost:3003/v1/tables");
     };
 
+    tableFactory.rmTable = function (tableId) {
+        return $http.post("http://localhost:3003/v1/rm/table/id/" + tableId);
+    };
+
     return tableFactory;
 }])
 
@@ -28,26 +32,24 @@ angular.module('arschloch.factories', [])
 .factory('cookieFactory', ['$http', function ($http) {
     cookieFactory = {};
 
-    // Get Username from Cookies
-    cookieFactory.getUsernameCookie = function () {
-        console.log(window.document.cookie);
-        //if checkCookie() ? true : false;
-    };
+    // Set Cookies
+    cookieFactory.setCookie = function (cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime()+(exdays*24*60*60*1000));
+        var expires = "expires="+d.toGMTString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
 
-    // Set Username in Cookies
-    cookieFactory.setUsernameCookie = function (username) {
-        if (!this.checkCookie()) {
-            // If Cookies are disabled
-            console.log('BAD NEWS: Cookies have to be enabled');
-            return false;
-        } else {
-            var date    = new Date();
-            var expires = date.getTime() + (365 * 24 * 60 * 60 * 1000);
-            date.setTime(expires);
-            window.document.cookie = "username=" + username + "; expires=" + date.toGMTString();
-            return true;
+    // Get Cookies
+    cookieFactory.getCookie = function (cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i].trim();
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
         }
-    };
+        return "";
+    }
 
     // Check for Cookies
     cookieFactory.checkCookie = function () {
