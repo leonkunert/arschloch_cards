@@ -9,7 +9,7 @@
         li.table(data-ng-repeat='table in tables', data-ng-mouseenter='show.del=true', ng-mouseleave='show.del=false')
             p
                 a(href='/table/{{table._id}}') {{table._id}}
-                a.ng-hide.TableDel(href='', ng-click="deleteTable()", ng-show="show.del") hallo
+                a.ng-hide.TableDel(href='', ng-click="deleteTable()", ng-show="show.del") delete Table
     ul
         li.player(data-ng-repeat='player in players', data-ng-mouseenter='show.del=true', ng-mouseleave='show.del=false')
             h1 {{player.playerName}}

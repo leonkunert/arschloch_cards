@@ -1,0 +1,70 @@
+/*
+ * Colors
+ */
+/*
+ * Fonts
+ */
+/*
+ * Pixels
+ */
+/* line 25, ../scss/style.scss */
+body {
+  background: #8888ff;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1.2em;
+}
+
+/* line 31, ../scss/style.scss */
+ul {
+  list-style: none;
+  padding: 0px;
+}
+
+/* line 44, ../scss/style.scss */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 300;
+  margin: 0px;
+}
+
+/* line 49, ../scss/style.scss */
+.table {
+  border-radius: 5px;
+  border: 1px solid #ff9d40;
+  background-color: #ff9d40;
+  padding: 5px;
+  margin: 5px;
+}
+/* line 55, ../scss/style.scss */
+.table .TableDel {
+  float: right;
+}
+
+/* line 59, ../scss/style.scss */
+.player {
+  background-color: #ff9d40;
+  margin: 5px;
+  position: relative;
+  width: 240px;
+  height: 80px;
+  border-radius: 5px;
+  float: left;
+  padding: 5px;
+}
+/* line 68, ../scss/style.scss */
+.player h1 {
+  font-size: 1.5em;
+  font-weight: 200;
+}
+/* line 72, ../scss/style.scss */
+.player .PlayerDel {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}

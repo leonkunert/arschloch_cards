@@ -1,28 +1,31 @@
-html(data-ng-app='arschloch')
+html(data-ng-app="arschloch")
 head
     title Arschloch for the Browser and hopfully online
-    link(href='http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&subset=latin-ext', rel='stylesheet', type='text/css')
-    link(rel='stylesheet', type='text/css', href='/css/style.css')
+    link(href="http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&subset=latin-ext", rel="stylesheet", type="text/css")
+    link(rel="stylesheet", type="text/css", href="/stylesheets/app.css")
+    link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
+    script(type="text/javascript", src="/bower_components/modernizr/modernizr.js")
+
 body
     noscript
         h1 ohne Javascript geht hier nischt
 
-    a(href='/test/test.html') Test
+    a(href="/test/test.html") Test
 
     br
-    a(href='/') Übersicht
+    a(href="/") Übersicht
 
-    .content(data-ng-view='')
+    .content(data-ng-view="")
 
     // Loading Angular
 
-    script(type='text/javascript', src='/bower_components/angular/angular.min.js')
-    script(type='text/javascript', src='/js/controllers.js')
-    script(type='text/javascript', src='/js/factories.js')
-    script(type='text/javascript', src='/bower_components/angular-route/angular-route.min.js')
-    script(type='text/javascript', src='/bower_components/angular-cookies/angular-cookies.min.js')
+    script(type="text/javascript", src="/bower_components/angular/angular.min.js")
+    script(type="text/javascript", src="/js/controllers.js")
+    script(type="text/javascript", src="/js/factories.js")
+    script(type="text/javascript", src="/bower_components/angular-route/angular-route.min.js")
+    script(type="text/javascript", src="/bower_components/angular-cookies/angular-cookies.min.js")
 
     // Loading own JS
 
-    //script(type='text/javascript', src='/js/ctrl.js')
-    script(type='text/javascript', src='/js/app.js')
+    //script(type="text/javascript", src="/js/ctrl.js")
+    script(type="text/javascript", src="/js/app.js")
