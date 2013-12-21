@@ -83,7 +83,11 @@ describe('API', function () {
                 .put('/v1/up/player/' + exports.player._id)
                 .send({authKey: '550e8400-e29b-41d4-a716-446655440000', playerName: '🐍🎃'})
                 .expect('Content-Type', /json/)
-                .expect(200, /"playerName": "🐍🎃"/, done);
+                .end(function (err, res) {
+                    assert.equal(res.body._id, exports.player._id);
+                    assert.equal(res.body.playerName, '🐍🎃');
+                    done();
+                });
         });
     });
 

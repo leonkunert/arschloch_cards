@@ -33,6 +33,10 @@ angular.module('arschloch.factories', [])
         return $http.post("http://localhost:3003/v1/rm/table/id/" + tableId);
     };
 
+    tableFactory.addTable = function (maxPlayers) {
+        return $http.post("http://localhost:3003/v1/add/table", {"maxPlayers": maxPlayers, "authKey": "dsd"});
+    };
+
     return tableFactory;
 }])
 
@@ -46,19 +50,28 @@ angular.module('arschloch.factories', [])
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         var expires = "expires=" + d.toGMTString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
+        console.log(document.cookie);
     };
 
     cookieFactory.setPlayerName = function (playerName, exdays) {
+        // Set Username Cookie
         cookieFactory.setCookie('playerName', playerName, exdays);
+
+        // If no id is found add Player to DB
         if (!cookieFactory.getCookie('_id')) {
+            console.log('no id_');
             playerFactory.addPlayer(playerName)
                 .success(function (data) {
+                    console.log(data);
                     cookieFactory.setCookie('_id', data._id, exdays);
                 });
         } else {
+            // If id is found update Player in DB
+            console.log('Found id_');
             var _id = cookieFactory.getCookie('_id');
             playerFactory.updatePlayer(playerName, _id)
                 .success(function (data) {
+                    console.log(data);
                     cookieFactory.setCookie('_id', data._id, exdays);
                 });
         }

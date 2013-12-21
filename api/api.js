@@ -32,6 +32,7 @@ exports.addTable = function (req, res) {
         }).save(function (err, result, numberAffected) {
             // If an error occours
             if (err) {
+                console.log('ERROR Adding Table');
                 console.log(err);
             }
 
@@ -52,6 +53,7 @@ exports.addPlayer = function (req, res) {
         }).save(function (err, result, numberAffected) {
             // If an error occours
             if (err) {
+                console.log('ERROR Adding Player');
                 console.log(err);
             }
 
@@ -99,6 +101,7 @@ exports.updatePlayer = function (req, res) {
         {playerName: req.body.playerName},
         function (err, model) {
             if (err) {
+                console.log('ERROR Updating Player');
                 console.log(err);
             }
             res.json(model);

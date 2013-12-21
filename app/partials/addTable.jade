@@ -1,7 +1,13 @@
-.addTableView
-    h1 {{message}}
-    form(name="tableForm")
-        p MaxPlayers
-        // TODO: Deactivate button until players is valid
-        input(type='number', value="3", min="3", max="8", data-ng-model="table.maxPlayers", required)
-        input(type='submit', ng-click="addTable(table.maxPlayers)", ng-disabled="tableForm.$invalid", placeholder='Max. Players')
+h1 {{message}}
+form(name="addTableForm")
+    br
+    .row
+        .small-10.large-8.columns.small-centered.large-centered
+            .row.collapse
+                .small-4.large-2.columns
+                    span.prefix MaxPlayers
+                .small-8.large-10.columns
+                    input(type='number', value="3", min="3", max="8", data-ng-model="table.maxPlayers", required)
+    .row
+        .small.large-offset-5.small-offset-5
+            a.button(href="#", type='submit', ng-disabled="addTableForm.$invalid", ng-click="addTable(table.maxPlayers)") Add Table

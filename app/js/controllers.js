@@ -82,17 +82,16 @@ angular.module('arschloch.controllers', [])
     $log.debug('using Player ctrl');
 }])
 
-// Add Player to table
-.controller("addPlayerToTableCtrl",
-    ['$scope', '$http', '$log', '$location', 'playerFactory',
-    function ($scope, $http, $log, $location, playerFactory) {
+// Add a new Table
+.controller("addTableCtrl", ['$scope', '$location', 'tableFactory', function ($scope, $location, tableFactory) {
 
-    $scope.message = "Add Player to Table";
-    playerFactory.getPlayers()
-        .success(function (data) {
-            $scope.players = data;
-        });
-    $log.debug('using Player to table ctrl');
+    $scope.message = 'Add a new Table';
+    $scope.addTable = function (maxPlayers) {
+        tableFactory.addTable(maxPlayers).
+            success(function(data) {
+                $location.path('/');
+            })
+    };
 }])
 
 // Register
@@ -100,14 +99,16 @@ angular.module('arschloch.controllers', [])
     ['$scope', '$location', 'cookieFactory', 'playerFactory',
     function ($scope, $location, cookieFactory, playerFactory) {
 
-    if (cookieFactory.getCookie('playerName') !== '') {
+    if (cookieFactory.getCookie('playerName') !== '' || cookieFactory.getCookie('_id') !== '') {
+        cookieFactory.setPlayerName(cookieFactory.getCookie('playerName'), 900);
         $location.path('/');
     }
 
     $scope.addPlayer = function (playerName) {
         console.log(playerName);
         if (playerName !== undefined) {
-            cookieFactory.setPlayerName(playerName, '', 365);
+            cookieFactory.setPlayerName(playerName, 9000);
+            $location.path('/');
         }
     };
 
