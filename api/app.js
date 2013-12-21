@@ -22,9 +22,14 @@ app.post('/v1/add/table', api.addTable);
 // Players
 app.post('/v1/add/player', api.addPlayer);
 
+
 // UPDATE
 // Tables
-app.post('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
+app.put('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
+app.put('/v1/up/table/:tableId', api.updateTable);
+//Players
+app.put('/v1/up/player/:playerId', api.updatePlayer);
+
 
 // DELETE
 // Tables

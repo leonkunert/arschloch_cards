@@ -11,9 +11,12 @@ angular.module('arschloch.controllers', [])
     $scope.message = "Overview";
 
     if (cookieFactory.checkCookie()) {
+        console.log(cookieFactory.getCookie('playerName'));
         if (cookieFactory.getCookie('playerName') === '') {
             $location.path('/register');
         }
+    } else {
+        $location.path('/register');
     }
 
 
@@ -70,21 +73,6 @@ angular.module('arschloch.controllers', [])
     $log.debug('using Table ctrl');
 }])
 
-// AddTable Controller
-.controller("addTableCtrl",
-    ['$scope', '$http', '$log', '$location',
-    function ($scope, $http, $log, $location) {
-
-    $scope.message = "Add Table";
-    $log.debug('using Table ctrl');
-    $scope.addTable = function (maxPlayers) {
-        $http.post("http://localhost:3003/v1/add/table", {"maxPlayers": maxPlayers, "authKey": "dsd"})
-            .success(function (data) {
-                $location.path('/');
-            });
-    };
-}])
-
 // Add Player Controller
 .controller("addPlayerCtrl",
     ['$scope', '$http', '$log', '$location',
@@ -119,7 +107,7 @@ angular.module('arschloch.controllers', [])
     $scope.addPlayer = function (playerName) {
         console.log(playerName);
         if (playerName !== undefined) {
-            cookieFactory.setCookie('playerName', playerName, 365);
+            cookieFactory.setPlayerName(playerName, '', 365);
         }
     };
 

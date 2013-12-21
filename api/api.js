@@ -47,6 +47,7 @@ exports.addPlayer = function (req, res) {
         new player({
             playerName : req.body.playerName,
             active     : false,
+            last_on    : new Date().getTime(),
             cards      : []
         }).save(function (err, result, numberAffected) {
             // If an error occours
@@ -90,6 +91,23 @@ exports.addPlayerToTable = function (req, res) {
             res.json(tModel);
         }
     );
+};
+
+exports.updatePlayer = function (req, res) {
+    player.findByIdAndUpdate(
+        {_id: req.params.playerId},
+        {playerName: req.body.playerName},
+        function (err, model) {
+            if (err) {
+                console.log(err);
+            }
+            res.json(model);
+        }
+    );
+};
+
+exports.updateTable = function () {
+    console.log('update Table function missing ');
 };
 
 

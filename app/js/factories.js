@@ -13,6 +13,10 @@ angular.module('arschloch.factories', [])
         return $http.post("http://localhost:3003/v1/add/player", {"playerName": playerName, "authKey": "dsd"});
     };
 
+    playerFactory.updatePlayer = function (playerId, playerName) {
+        return $http.put("http://localhost:3003/v1/up/player/" + playerId, {"playerName": playerName, "authKey": "dsd"});
+    };
+
     return playerFactory;
 }])
 
@@ -44,14 +48,19 @@ angular.module('arschloch.factories', [])
         document.cookie = cname + "=" + cvalue + "; " + expires;
     };
 
-    cookieFactory.setPlayerName = function (playerName, _id, exdays) {
-        setCookie('playerName', playerName, exdays);
-        if (!getCookie('_id')) {
-            addPlayer(playerName)
+    cookieFactory.setPlayerName = function (playerName, exdays) {
+        cookieFactory.setCookie('playerName', playerName, exdays);
+        if (!cookieFactory.getCookie('_id')) {
+            playerFactory.addPlayer(playerName)
                 .success(function (data) {
-                    console.log(data);
+                    cookieFactory.setCookie('_id', data._id, exdays);
                 });
-            setCookie('_id', _id, exdays);
+        } else {
+            var _id = cookieFactory.getCookie('_id');
+            playerFactory.updatePlayer(playerName, _id)
+                .success(function (data) {
+                    cookieFactory.setCookie('_id', data._id, exdays);
+                });
         }
     };
 

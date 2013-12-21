@@ -52,7 +52,7 @@ describe('API', function () {
         it('Creating a new Player should respond with json', function (done) {
             request(app)
                 .post("/v1/add/player")
-                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test: true, playerName: "😌"})
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', test: true, playerName: '😌'})
                 .expect('Content-Type', /json/)
                 .expect(200, /"playerName": "😌"/)
                 .end(function (err, res) {
@@ -68,12 +68,32 @@ describe('API', function () {
     describe('UPDATE', function () {
         it('Should be updating a Table with a Player', function (done) {
             request(app)
-                .post('/v1/add/table/' + exports.table._id + '/' + exports.player._id)
+                .put('/v1/add/table/' + exports.table._id + '/' + exports.player._id)
                 .end(function (err, res) {
                     assert.equal(res.body.tableId, exports.table._id, 'Table Id is not the Same as in the DB');
                     assert.equal(res.body._id, exports.player._id, 'Player Id is not the Same as in the DB');
                     done();
                 });
+        });
+    });
+
+    describe('Update Player', function () {
+        it('should update a players Name', function (done) {
+            request(app)
+                .put('/v1/up/player/' + exports.player._id)
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', playerName: '🐍🎃'})
+                .expect('Content-Type', /json/)
+                .expect(200, /"playerName": "🐍🎃"/, done);
+        });
+    });
+
+    describe('Update Table', function () {
+        it('should update a table num players', function (done) {
+            request(app)
+                .put('/v1/up/table/' + exports.table._id)
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', activePlayer: exports.player._id})
+                .expect('Content-Type', /json/)
+                .expect(200, /"activePlayer"/, done);
         });
     });
 
@@ -118,7 +138,7 @@ describe('API', function () {
             request(app)
                 .get('/v1/players')
                 .expect('Content-Type', /json/)
-                .expect(200, /"playerName": "😌"/, done);
+                .expect(200, /"playerName": "🐍🎃"/, done);
         });
 
         it('Should get One Player', function (done) {
