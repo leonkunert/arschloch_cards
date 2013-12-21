@@ -11,7 +11,7 @@ angular.module('arschloch.controllers', [])
     $scope.message = "Overview";
 
     if (cookieFactory.checkCookie()) {
-        if (cookieFactory.getCookie('username') === '') {
+        if (cookieFactory.getCookie('playerName') === '') {
             $location.path('/register');
         }
     }
@@ -91,13 +91,6 @@ angular.module('arschloch.controllers', [])
     function ($scope, $http, $log, $location) {
 
     $scope.message = "Add Player";
-    $scope.addPlayer = function (playerName) {
-        $http.post("http://localhost:3003/v1/add/player", {"playerName": playerName, "authKey": "dsd"})
-            .success(function (data) {
-                console.log(data);
-                $location.path('/');
-            });
-    };
     $log.debug('using Player ctrl');
 }])
 
@@ -116,12 +109,21 @@ angular.module('arschloch.controllers', [])
 
 // Register
 .controller("registerCtrl",
-    ['$scope', 'cookieFactory',
-    function ($scope, cookieFactory) {
+    ['$scope', '$location', 'cookieFactory', 'playerFactory',
+    function ($scope, $location, cookieFactory, playerFactory) {
 
-    cookieFactory.checkCookie();
+    if (cookieFactory.getCookie('playerName') !== '') {
+        $location.path('/');
+    }
 
-    $scope.message = "Hey would you like to play? Just enter a username";
+    $scope.addPlayer = function (playerName) {
+        console.log(playerName);
+        if (playerName !== undefined) {
+            cookieFactory.setCookie('playerName', playerName, 365);
+        }
+    };
+
+    $scope.message = "Hey would you like to play? Just enter a Username.";
 }])
 
 // Errors

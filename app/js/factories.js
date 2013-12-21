@@ -9,6 +9,10 @@ angular.module('arschloch.factories', [])
         return $http.get("http://localhost:3003/v1/players");
     };
 
+    playerFactory.addPlayer = function (playerName) {
+        return $http.post("http://localhost:3003/v1/add/player", {"playerName": playerName, "authKey": "dsd"});
+    };
+
     return playerFactory;
 }])
 
@@ -29,27 +33,40 @@ angular.module('arschloch.factories', [])
 }])
 
 // Cookie Factory
-.factory('cookieFactory', ['$http', function ($http) {
+.factory('cookieFactory', ['$http', 'playerFactory', function ($http, playerFactory) {
     cookieFactory = {};
 
     // Set Cookies
     cookieFactory.setCookie = function (cname, cvalue, exdays) {
         var d = new Date();
-        d.setTime(d.getTime()+(exdays*24*60*60*1000));
-        var expires = "expires="+d.toGMTString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toGMTString();
         document.cookie = cname + "=" + cvalue + "; " + expires;
-    }
+    };
+
+    cookieFactory.setPlayerName = function (playerName, _id, exdays) {
+        setCookie('playerName', playerName, exdays);
+        if (!getCookie('_id')) {
+            addPlayer(playerName)
+                .success(function (data) {
+                    console.log(data);
+                });
+            setCookie('_id', _id, exdays);
+        }
+    };
 
     // Get Cookies
     cookieFactory.getCookie = function (cname) {
         var name = cname + "=";
         var ca = document.cookie.split(';');
-        for(var i=0; i<ca.length; i++) {
+        for (var i = 0; i < ca.length; i++) {
             var c = ca[i].trim();
-            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
         }
         return "";
-    }
+    };
 
     // Check for Cookies
     cookieFactory.checkCookie = function () {

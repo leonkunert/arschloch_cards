@@ -1,5 +1,7 @@
 
 test:
+## Compass for Sass => CSS
+	@cd app/ && compass compile -q
 ## Mocha tests (Backend)
 	@cd api/ && node_modules/mocha/bin/mocha --reporter spec
 ## Karma tests (Frontend)

@@ -1,6 +1,7 @@
 html(data-ng-app="arschloch")
 head
     title Arschloch for the Browser and hopfully online
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(href="http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&subset=latin-ext", rel="stylesheet", type="text/css")
     link(rel="stylesheet", type="text/css", href="/stylesheets/app.css")
     link(rel="stylesheet", type="text/css", href="/stylesheets/style.css")
@@ -10,16 +11,19 @@ body
     noscript
         h1 ohne Javascript geht hier nischt
 
-    a(href="/test/test.html") Test
-
-    br
-    a(href="/") Übersicht
+    nav.top-bar(data-topbar='data-topbar')
+        ul.title-area
+            li.name
+                h1
+                    a(href="/") Home
 
     .content(data-ng-view="")
 
     // Loading Angular
 
     script(type="text/javascript", src="/bower_components/angular/angular.min.js")
+    script(type="text/javascript", src="/bower_components/jquery/jquery.js")
+    script(type="text/javascript", src="/bower_components/foundation/js/foundation.min.js")
     script(type="text/javascript", src="/js/controllers.js")
     script(type="text/javascript", src="/js/factories.js")
     script(type="text/javascript", src="/bower_components/angular-route/angular-route.min.js")
@@ -27,5 +31,6 @@ body
 
     // Loading own JS
 
-    //script(type="text/javascript", src="/js/ctrl.js")
+    script
+        $(document).foundation();
     script(type="text/javascript", src="/js/app.js")

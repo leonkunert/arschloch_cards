@@ -1,4 +1,17 @@
-{{message}}
-<form>
-  <input/>
+
+<h1 class="text-center">{{message}}</h1>
+<form name="registerForm"><br/>
+  <div class="row">
+    <div class="small-10 large-8 columns small-centered large-centered">
+      <div class="row collapse">
+        <div class="small-4 large-2 columns"><span class="prefix">Username</span></div>
+        <div class="small-8 large-10 columns">
+          <input type="text" data-ng-model="cookie.playerName" required="required"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small large-offset-5 small-offset-5"><a href="#" type="submit" ng-disabled="registerForm.$invalid" ng-click="addPlayer(cookie.playerName)" class="button">Let's Go</a></div>
+  </div>
 </form>
