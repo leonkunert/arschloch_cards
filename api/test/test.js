@@ -68,10 +68,10 @@ describe('API', function () {
     describe('UPDATE', function () {
         it('Should be updating a Table with a Player', function (done) {
             request(app)
-                .put('/v1/add/table/' + exports.table._id + '/' + exports.player._id)
+                .put('/v1/up/table/' + exports.table._id + '/' + exports.player._id)
                 .end(function (err, res) {
-                    assert.equal(res.body.tableId, exports.table._id, 'Table Id is not the Same as in the DB');
-                    assert.equal(res.body._id, exports.player._id, 'Player Id is not the Same as in the DB');
+                    assert.equal(res.body.tableId, exports.table._id);
+                    assert.equal(res.body._id, exports.player._id);
                     done();
                 });
         });

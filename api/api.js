@@ -77,6 +77,7 @@ exports.getDeck = function (req, res) {
 exports.addPlayerToTable = function (req, res) {
     // Update Table NumPlayers and add to player List
     // Update Table with PlayerId
+    // TODOBUG: Have to delete player from previous tables
     player.findByIdAndUpdate(
         {_id: req.params.playerId},
         {tableId: req.params.tableId},

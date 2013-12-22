@@ -45,6 +45,10 @@
     socket.on('tableEvent', function (data) {
         console.log(data);
     });
+    socket.on('tableEvent', function (data) {
+        console.log(data);
+    });
+    socket.emit('join', {test: "this is a test for sockets"});
     socket.on('overviewEvent', function (data) {
         console.log(data);
     });

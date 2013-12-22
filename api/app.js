@@ -16,6 +16,7 @@ app.configure(function () {
 
 // set up the RESTful API, handler methods are defined in api.js
 var api = require('./api.js');
+var so_api = require('./so_api.js');
 
 /* ----- POST ----- */
 
@@ -28,7 +29,7 @@ app.post('/v1/add/player', api.addPlayer);
 
 // UPDATE
 // Tables
-app.put('/v1/add/table/:tableId/:playerId', api.addPlayerToTable);
+app.put('/v1/up/table/:tableId/:playerId', api.addPlayerToTable);
 app.put('/v1/up/table/:tableId', api.updateTable);
 //Players
 app.put('/v1/up/player/:playerId', api.updatePlayer);
@@ -55,11 +56,7 @@ app.get('*', api.index);
 
 
 io.sockets.on('connection', function (socket) {
-    socket.emit('Hello', { content: 'Hello would you like some sockets?' });
-    socket.on('news', function (data) {
-        socket.emit('news', { content: data.text });
-        socket.broadcast.emit('news', { content: data.text});
-    });
+    so_api.test(socket);
 });
 
 

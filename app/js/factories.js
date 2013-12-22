@@ -34,7 +34,7 @@ angular.module('arschloch.factories', [])
     };
 
     tableFactory.joinTable = function (tableId, playerId) {
-        return $http.put("http://localhost:3003/v1/add/table/" + tableId + "/" + playerId);
+        return $http.put("http://localhost:3003/v1/up/table/" + tableId + "/" + playerId);
     };
 
     tableFactory.addTable = function (maxPlayers) {

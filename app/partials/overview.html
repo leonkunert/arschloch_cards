@@ -1,7 +1,6 @@
 
 <div class="overview">
   <h1>Arschloch all Tables</h1><a href="/add/table" class="button">+ Add Table</a>
-  <!-- TODO: Hallo durch Del ersetzen-->
   <div data-ng-repeat="table in tables" data-ng-mouseenter="show.join=true" ng-mouseleave="show.join=false" class="panel">
     <p>{{table._id}}<a href="/table/{{table._id}}" ng-show="show.join" class="ng-hide right">Join Table</a></p>
   </div>
