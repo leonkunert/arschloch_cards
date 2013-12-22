@@ -29,8 +29,12 @@ angular.module('arschloch.factories', [])
         return $http.get("http://localhost:3003/v1/tables");
     };
 
-    tableFactory.rmTable = function (tableId) {
-        return $http.post("http://localhost:3003/v1/rm/table/id/" + tableId);
+    tableFactory.getTable = function (tableId) {
+        return $http.get("http://localhost:3003/v1/table/" + tableId);
+    };
+
+    tableFactory.joinTable = function (tableId, playerId) {
+        return $http.put("http://localhost:3003/v1/add/table/" + tableId + "/" + playerId);
     };
 
     tableFactory.addTable = function (maxPlayers) {

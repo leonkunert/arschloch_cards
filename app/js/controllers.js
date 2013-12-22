@@ -4,9 +4,7 @@
 angular.module('arschloch.controllers', [])
 
 // Overview Controller
-.controller("OverviewCtrl",
-    ['$scope', '$http', '$log', '$location', 'playerFactory', 'tableFactory', 'cookieFactory',
-    function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
+.controller("OverviewCtrl", ['$scope', '$http', '$log', '$location', 'playerFactory', 'tableFactory', 'cookieFactory', function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
 
     $scope.message = "Overview";
 
@@ -30,38 +28,20 @@ angular.module('arschloch.controllers', [])
             $scope.players = data;
         });
 
-    // Delete Tables
-    $scope.deleteTable = function () {
-        tableFactory.rmTable(this.table._id);
-        for (var table in $scope.tables) {
-            if (this.table._id === $scope.tables[table]._id) {
-                $scope.tables.splice(table, 1);
-                break;
-            }
-        }
-    };
-
-    $scope.deletePlayer = function () {
-        playerFactory.rmPlayer(this.table._id);
-        for (var player in $scope.players) {
-            if (this.player._id === $scope.players[player]._id) {
-                $scope.players.splice(player);
-                break;
-            }
-        }
-    };
-
     $log.debug('using overview ctrl');
 }])
 
 // Table Controller
-.controller("TableCtrl",
-    ['$scope', '$routeParams', '$http', '$log',
-    function ($scope, $routeParams, $http, $log) {
+.controller("TableCtrl", ['$scope', '$routeParams', '$http', '$log', 'tableFactory', 'cookieFactory', function ($scope, $routeParams, $http, $log, tableFactory, cookieFactory) {
 
-    $scope.message = "Table";
+    $scope.message    = "Table";
+    $scope.playerName = cookieFactory.getCookie('playerName');
+    $scope.playerId   = cookieFactory.getCookie('_id');
+
+    tableFactory.joinTable($routeParams.tableId, $scope.playerId);
+
     if ($routeParams.tableId !== "undefined") {
-        $http.get("http://localhost:3003/v1/table/" + $routeParams.tableId)
+        tableFactory.getTable($routeParams.tableId)
             .success(function (data) {
                 $scope.table   = data[0];
                 $scope.players = data[1];
@@ -69,15 +49,15 @@ angular.module('arschloch.controllers', [])
             .error(function (data) {
                 // TODO: Handle Error
         });
+
     }
     $log.debug('using Table ctrl');
 }])
 
 // Register
-.controller("registerCtrl",
-    ['$scope', '$location', 'cookieFactory', 'playerFactory',
-    function ($scope, $location, cookieFactory, playerFactory) {
+.controller("registerCtrl", ['$scope', '$location', '$log', 'cookieFactory', 'playerFactory', function ($scope, $location, $log, cookieFactory, playerFactory) {
 
+    // If Cookies are already there Update their expire Date
     if (cookieFactory.getCookie('playerName') !== '' || cookieFactory.getCookie('_id') !== '') {
         cookieFactory.setPlayerName(cookieFactory.getCookie('playerName'), 900);
         $location.path('/');
@@ -92,19 +72,19 @@ angular.module('arschloch.controllers', [])
     };
 
     $scope.message = "Hey would you like to play? Just enter a Username.";
+    $log.debug('using Register ctrl');
 }])
 
-.controller("profileCtrl", ['$scope', '$location', 'cookieFactory', function ($scope, $location, cookieFactory) {
+.controller("profileCtrl", ['$scope', '$location', '$log', 'cookieFactory', function ($scope, $location, $log, cookieFactory) {
     $scope.message    = 'The Data we have got:';
     $scope.playerName = cookieFactory.getCookie('playerName');
     $scope._id        = cookieFactory.getCookie('_id');
+    $log.debug('using Profile ctrl');
 }])
 
 // Errors
-.controller("errorCtrl",
-    ['$scope', 'cookieFactory',
-    function ($scope, cookieFactory) {
-
+.controller("errorCtrl", ['$scope', '$log', 'cookieFactory', function ($scope, $log, cookieFactory) {
     $scope.message = "Error. WHAT'S HAPPENING. Have you Cookies and Javascript enabled???";
     cookieFactory.checkCookie();
+    $log.debug('using Error ctrl');
 }]);
