@@ -1,6 +1,9 @@
 var express    = require('express')
     , mongoose = require('mongoose')
-    , app      = express();
+    , http     = require('http')
+    , app      = express()
+    , server   = http.createServer(app)
+    , io       = require('socket.io').listen(server);
 
 // connect to Mongo when the app initializes
 mongoose.connect('mongodb://localhost/arsch');
@@ -50,7 +53,17 @@ app.get('/v1/deck', api.getDeck);
 
 app.get('*', api.index);
 
-app.listen(3003);
+
+io.sockets.on('connection', function (socket) {
+    socket.emit('Hello', { content: 'Hello would you like some sockets?' });
+    socket.on('news', function (data) {
+        socket.emit('news', { content: data.text });
+        socket.broadcast.emit('news', { content: data.text});
+    });
+});
+
+
+server.listen(3003);
 
 console.log("Express server listening on port 3003");
 

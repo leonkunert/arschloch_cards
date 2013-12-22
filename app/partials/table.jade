@@ -1,8 +1,6 @@
 .tableView
     h1 {{message}}
     {{table._id}}
-    br
-    a(href='/com/table/{{table._id}}') + Add Player
     ul
         li.player(data-ng-repeat='player in players')
             h1 {{player.playerName}}

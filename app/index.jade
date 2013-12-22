@@ -5,6 +5,8 @@ head
     link(href="http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400&subset=latin-ext", rel="stylesheet", type="text/css")
     link(rel="stylesheet", type="text/css", href="/stylesheets/app.css")
     script(type="text/javascript", src="/bower_components/modernizr/modernizr.js")
+    script(type="text/javascript", src="/bower_components/modernizr/modernizr.js")
+    script(type="text/javascript", src="/socket.io/socket.io.js")
 
 body
     noscript
@@ -15,6 +17,11 @@ body
             li.name
                 h1
                     a(href="/") Home
+        // Right Nav Section
+        section.top-bar-section
+            ul.right
+                li
+                    a(href="/profile") My Profile
 
     .small-12.large-11.small-centered.large-centered.columns(data-ng-view="")
 
@@ -32,4 +39,14 @@ body
 
     script
         $(document).foundation();
+        var socket = io.connect('http://localhost:3003/');
+        socket.on('Hello', function (data) {
+            console.log(data);
+        });
+        socket.on('tableEvent', function (data) {
+            console.log(data);
+        });
+        socket.on('overviewEvent', function (data) {
+            console.log(data);
+        });
     script(type="text/javascript", src="/js/app.js")

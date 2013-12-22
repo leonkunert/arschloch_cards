@@ -73,27 +73,6 @@ angular.module('arschloch.controllers', [])
     $log.debug('using Table ctrl');
 }])
 
-// Add Player Controller
-.controller("addPlayerCtrl",
-    ['$scope', '$http', '$log', '$location',
-    function ($scope, $http, $log, $location) {
-
-    $scope.message = "Add Player";
-    $log.debug('using Player ctrl');
-}])
-
-// Add a new Table
-.controller("addTableCtrl", ['$scope', '$location', 'tableFactory', function ($scope, $location, tableFactory) {
-
-    $scope.message = 'Add a new Table';
-    $scope.addTable = function (maxPlayers) {
-        tableFactory.addTable(maxPlayers).
-            success(function(data) {
-                $location.path('/');
-            })
-    };
-}])
-
 // Register
 .controller("registerCtrl",
     ['$scope', '$location', 'cookieFactory', 'playerFactory',
@@ -113,6 +92,12 @@ angular.module('arschloch.controllers', [])
     };
 
     $scope.message = "Hey would you like to play? Just enter a Username.";
+}])
+
+.controller("profileCtrl", ['$scope', '$location', 'cookieFactory', function ($scope, $location, cookieFactory) {
+    $scope.message    = 'The Data we have got:';
+    $scope.playerName = cookieFactory.getCookie('playerName');
+    $scope._id        = cookieFactory.getCookie('_id');
 }])
 
 // Errors
