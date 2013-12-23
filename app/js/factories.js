@@ -9,6 +9,10 @@ angular.module('arschloch.factories', [])
         return $http.get("http://localhost:3003/v1/players");
     };
 
+    playerFactory.getPlayer = function (playerId) {
+        return $http.get("http://localhost:3003/v1/player/" + playerId);
+    };
+
     playerFactory.addPlayer = function (playerName) {
         return $http.post("http://localhost:3003/v1/add/player", {"playerName": playerName, "authKey": "dsd"});
     };

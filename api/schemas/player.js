@@ -5,11 +5,22 @@ var mongoose   = require('mongoose')
     , ObjectId = Schema.ObjectId;
 
 var playerSchema = mongoose.Schema({
+    // name of the player
     playerName : String,
+
+    // is the player active does he/she have to make a move
     active     : Boolean,
-    last_on    : Date,
+
+    // Date when he/she last logged in
+    lastOn    : Date,
+
+    // Is he/she online right now
     online     : Boolean,
+
+    // Table Id of the table he/she ist on
     tableId    : ObjectId,
+
+    // The Cards he/she has got
     cards      : [
         { card   : String }
     ]

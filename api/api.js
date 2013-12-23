@@ -48,7 +48,7 @@ exports.addPlayer = function (req, res) {
         new player({
             playerName : req.body.playerName,
             active     : false,
-            last_on    : new Date().getTime(),
+            lastOn    : new Date().getTime(),
             cards      : []
         }).save(function (err, result, numberAffected) {
             // If an error occours
@@ -82,7 +82,7 @@ exports.addPlayerToTable = function (req, res) {
         {_id: req.params.playerId},
         {tableId: req.params.tableId},
         {safe: true, upsert: true},
-        function (err, tModel) {
+        function (err, model) {
             if (err) {
                 console.log(err);
             }
@@ -91,7 +91,7 @@ exports.addPlayerToTable = function (req, res) {
                 {$push: {players: req.params.playerId, passPlayers: req.params.playerId}},
                 {safe: true, upsert: true}
             ).exec();
-            res.json(tModel);
+            res.json(model);
         }
     );
 };
@@ -99,19 +99,27 @@ exports.addPlayerToTable = function (req, res) {
 exports.updatePlayer = function (req, res) {
     player.findByIdAndUpdate(
         {_id: req.params.playerId},
-        {playerName: req.body.playerName},
+        req.body.updateParams,
         function (err, model) {
             if (err) {
-                console.log('ERROR Updating Player');
+                console.log(err);
+            }
+            res.json(model)
+        }
+    );
+}
+
+exports.updateTable = function (req, res) {
+    table.findByIdAndUpdate(
+        {_id: req.params.tableId},
+        req.body.updateParams,
+        function (err, model) {
+            if (err) {
                 console.log(err);
             }
             res.json(model);
         }
     );
-};
-
-exports.updateTable = function () {
-    console.log('update Table function missing ');
 };
 
 

@@ -75,10 +75,15 @@ angular.module('arschloch.controllers', [])
     $log.debug('using Register ctrl');
 }])
 
-.controller("profileCtrl", ['$scope', '$location', '$log', 'cookieFactory', function ($scope, $location, $log, cookieFactory) {
+.controller("profileCtrl", ['$scope', '$location', '$log', 'cookieFactory', 'playerFactory', function ($scope, $location, $log, cookieFactory, playerFactory) {
     $scope.message    = 'The Data we have got:';
-    $scope.playerName = cookieFactory.getCookie('playerName');
-    $scope._id        = cookieFactory.getCookie('_id');
+    // getting all Player Data
+    var playerData;
+    playerFactory.getPlayer(cookieFactory.getCookie('_id'))
+        .success(function (data) {
+            $scope.playerData = data;
+        });
+    console.log($scope);
     $log.debug('using Profile ctrl');
 }])
 

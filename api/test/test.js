@@ -81,7 +81,7 @@ describe('API', function () {
         it('should update a players Name', function (done) {
             request(app)
                 .put('/v1/up/player/' + exports.player._id)
-                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', playerName: '🐍🎃'})
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', updateParams: {playerName: '🐍🎃'}})
                 .expect('Content-Type', /json/)
                 .end(function (err, res) {
                     assert.equal(res.body._id, exports.player._id);
@@ -95,7 +95,7 @@ describe('API', function () {
         it('should update a table num players', function (done) {
             request(app)
                 .put('/v1/up/table/' + exports.table._id)
-                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', activePlayer: exports.player._id})
+                .send({authKey: '550e8400-e29b-41d4-a716-446655440000', updateParams: {activePlayer: exports.player._id}})
                 .expect('Content-Type', /json/)
                 .expect(200, /"activePlayer"/, done);
         });
