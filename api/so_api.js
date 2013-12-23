@@ -9,6 +9,7 @@ so.test = function (socket) {
     socket.emit('Hello', { content: 'Hello would you like some sockets?' });
     socket.on('join', function (data) {
         // socket.emit('news', { content: data.text });
+        console.log('got message join message');
         socket.broadcast.emit('join', { content: data});
     });
 };
