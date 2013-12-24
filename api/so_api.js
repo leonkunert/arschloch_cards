@@ -7,10 +7,10 @@ var table    = require('./schemas/table.js')
 
 so.test = function (socket) {
     socket.emit('Hello', { content: 'Hello would you like some sockets?' });
-    socket.on('join', function (data) {
+    socket.on('tableJoin', function (data) {
         // socket.emit('news', { content: data.text });
         console.log('got message join message');
-        socket.broadcast.emit('join', { content: data});
+        //socket.broadcast.emit('join', { content: data});
     });
 };
 
