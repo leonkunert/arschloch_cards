@@ -4,7 +4,7 @@
 angular.module('arschloch.controllers', [])
 
 // Overview Controller
-.controller("OverviewCtrl", ['$scope', '$http', '$log', '$location', 'playerFactory', 'tableFactory', 'cookieFactory', function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
+.controller("OverviewCtrl", function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
 
     $scope.message = "Overview";
 
@@ -29,12 +29,12 @@ angular.module('arschloch.controllers', [])
         });
 
     $log.debug('using overview ctrl');
-}])
+})
 
 // Table Controller
-.controller("TableCtrl", ['$scope', '$routeParams', '$http', '$log', 'tableFactory', 'cookieFactory', function ($scope, $routeParams, $http, $log, tableFactory, cookieFactory) {
+.controller("TableCtrl", function ($scope, $routeParams, $http, $log, tableFactory, cookieFactory) {
 
-    $scope.message    = "Table";
+    $scope.message    = "Add Table";
     $scope.playerName = cookieFactory.getCookie('playerName');
     $scope.playerId   = cookieFactory.getCookie('_id');
 
@@ -52,10 +52,10 @@ angular.module('arschloch.controllers', [])
 
     }
     $log.debug('using Table ctrl');
-}])
+})
 
 // Register
-.controller("registerCtrl", ['$scope', '$location', '$log', 'cookieFactory', 'playerFactory', function ($scope, $location, $log, cookieFactory, playerFactory) {
+.controller("registerCtrl", function ($scope, $location, $log, cookieFactory, playerFactory) {
 
     // If Cookies are already there Update their expire Date
     if (cookieFactory.getCookie('playerName') !== '' || cookieFactory.getCookie('_id') !== '') {
@@ -73,9 +73,19 @@ angular.module('arschloch.controllers', [])
 
     $scope.message = "Hey would you like to play? Just enter a Username.";
     $log.debug('using Register ctrl');
-}])
+})
 
-.controller("profileCtrl", ['$scope', '$location', '$log', 'cookieFactory', 'playerFactory', function ($scope, $location, $log, cookieFactory, playerFactory) {
+.controller("addTableCtrl", function ($scope, $location, tableFactory) {
+    $scope.message = 'Add a new Table';
+    $scope.addTable = function (maxPlayers) {
+        tableFactory.addTable(maxPlayers)
+            .success(function (data) {
+                $location.path('/');
+            });
+    };
+})
+
+.controller("profileCtrl", function ($scope, $location, $log, cookieFactory, playerFactory) {
     $scope.message    = 'The Data we have got:';
     // getting all Player Data
     var playerData;
@@ -85,11 +95,11 @@ angular.module('arschloch.controllers', [])
         });
     console.log($scope);
     $log.debug('using Profile ctrl');
-}])
+})
 
 // Errors
-.controller("errorCtrl", ['$scope', '$log', 'cookieFactory', function ($scope, $log, cookieFactory) {
+.controller("errorCtrl", function ($scope, $log, cookieFactory) {
     $scope.message = "Error. WHAT'S HAPPENING. Have you Cookies and Javascript enabled???";
     cookieFactory.checkCookie();
     $log.debug('using Error ctrl');
-}]);
+});
