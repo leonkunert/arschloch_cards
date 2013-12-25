@@ -28,10 +28,4 @@ angular.module('arschloch', [
 // Config for Logs
 .config(function ($logProvider) {
     $logProvider.debugEnabled(true);
-})
-
-.config(function (socketProvider) {
-    var mySocket = io.connect('http://localhost:3003');
-    // do stuff with mySocket
-    socketProvider.ioSocket(mySocket);
 });

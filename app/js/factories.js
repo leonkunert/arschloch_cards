@@ -1,4 +1,4 @@
-angular.module('arschloch.factories', [])
+angular.module('arschloch.factories', ['btford.socket-io'])
 
 // Player Factory
 .factory('playerFactory', ['$http', function ($http) {
@@ -108,4 +108,11 @@ angular.module('arschloch.factories', [])
     };
 
     return cookieFactory;
-}]);
+}])
+
+factory('socket', function (socketFactory)) {
+    return socketFactory({
+        prefix: 'foo~',
+        ioSocket: io.connect('http://localhost:3003')
+    });
+});
