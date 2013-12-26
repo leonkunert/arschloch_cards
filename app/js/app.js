@@ -3,9 +3,9 @@
 angular.module('arschloch', [
     'ngRoute',
     'ngCookies',
-    'arschloch.controllers',
+    'btford.socket-io',
     'arschloch.factories',
-    'btford.socket-io'
+    'arschloch.controllers'
 ])
 
 // Config for Routes
@@ -19,6 +19,7 @@ angular.module('arschloch', [
         .when('/add/table', {templateUrl: '/partials/addTable.html', controller: 'addTableCtrl'})
         .when('/register', {templateUrl: '/partials/register.html', controller: 'registerCtrl'})
         .when('/profile', {templateUrl: '/partials/profile.html', controller: 'profileCtrl'})
+        .when('/status', {templateUrl: '/partials/status.html', controller: 'statusCtrl'})
         .when('/error', {templateUrl: '/partials/error.html', controller: 'errorCtrl'})
 
         .otherwise({redirectTo: '/error'});

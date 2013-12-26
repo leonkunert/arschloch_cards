@@ -4,9 +4,14 @@
 angular.module('arschloch.controllers', [])
 
 // Overview Controller
-.controller("OverviewCtrl", function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory) {
+.controller("OverviewCtrl", function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory, socket) {
 
     $scope.message = "Overview";
+    socket.on('test', function(data) {
+        console.log(data);
+    });
+
+    socket.emit('joinOverview', {'playerName': cookieFactory.getCookie('playerName'), 'playerId': cookieFactory.getCookie('_id')})
 
     if (cookieFactory.checkCookie()) {
         console.log(cookieFactory.getCookie('playerName'));
@@ -32,7 +37,7 @@ angular.module('arschloch.controllers', [])
 })
 
 // Table Controller
-.controller("TableCtrl", function ($scope, $routeParams, $http, $log, tableFactory, cookieFactory) {
+.controller("TableCtrl", function ($scope, $routeParams, $http, $log, tableFactory, playerFactory, cookieFactory, socket) {
 
     $scope.message    = "Add Table";
     $scope.playerName = cookieFactory.getCookie('playerName');
@@ -49,9 +54,15 @@ angular.module('arschloch.controllers', [])
             .error(function (data) {
                 // TODO: Handle Error
         });
-
     }
+    socket.emit('joinTable', {'playerName': $scope.playerName, 'playerId': $scope.playerId});
     $log.debug('using Table ctrl');
+    socket.on('newPlayer', function (data) {
+        playerFactory.getPlayer(data.playerId)
+            .success(function (playerData) {
+                $scope.players.push(playerData);
+            });
+    })
 })
 
 // Register
@@ -95,6 +106,14 @@ angular.module('arschloch.controllers', [])
         });
     console.log($scope);
     $log.debug('using Profile ctrl');
+})
+
+.controller("statusCtrl", function ($scope, $log, socket) {
+    $scope.messages = [];
+    socket.on('test', function(data) {
+        $scope.messages.push(data);
+    });
+    $log.debug('using status ctrl');
 })
 
 // Errors

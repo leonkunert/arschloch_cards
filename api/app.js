@@ -56,7 +56,7 @@ app.get('*', api.index);
 
 
 io.sockets.on('connection', function (socket) {
-    so_api.test(socket);
+    so_api.route(socket);
 });
 
 

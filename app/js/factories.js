@@ -1,7 +1,7 @@
-angular.module('arschloch.factories', ['btford.socket-io'])
+angular.module('arschloch.factories', [])
 
 // Player Factory
-.factory('playerFactory', ['$http', function ($http) {
+.factory('playerFactory', function ($http) {
     // Getting all Players
     playerFactory = {};
 
@@ -22,10 +22,10 @@ angular.module('arschloch.factories', ['btford.socket-io'])
     };
 
     return playerFactory;
-}])
+})
 
 // Player Factory
-.factory('tableFactory', ['$http', function ($http) {
+.factory('tableFactory', function ($http) {
     // Getting all Players
     tableFactory = {};
 
@@ -46,10 +46,10 @@ angular.module('arschloch.factories', ['btford.socket-io'])
     };
 
     return tableFactory;
-}])
+})
 
 // Cookie Factory
-.factory('cookieFactory', ['$http', 'playerFactory', function ($http, playerFactory) {
+.factory('cookieFactory', function ($http, playerFactory) {
     cookieFactory = {};
 
     // Set Cookies
@@ -108,11 +108,12 @@ angular.module('arschloch.factories', ['btford.socket-io'])
     };
 
     return cookieFactory;
-}])
+})
 
-factory('socket', function (socketFactory)) {
+// Socket Factory
+.factory('socket', function (socketFactory) {
     return socketFactory({
-        prefix: 'foo~',
+        prefix: '',
         ioSocket: io.connect('http://localhost:3003')
     });
 });
