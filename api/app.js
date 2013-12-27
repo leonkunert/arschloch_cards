@@ -54,7 +54,7 @@ app.get('/v1/deck', api.getDeck);
 
 app.get('*', api.index);
 
-
+// transfering socket connections to so_api
 io.sockets.on('connection', function (socket) {
     so_api.route(socket);
 });

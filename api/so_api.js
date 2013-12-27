@@ -8,15 +8,13 @@ var table    = require('./schemas/table.js')
 so.route = function (socket) {
     socket.broadcast.emit('test', { content: 'Hello would you like some sockets?' });
     socket.on('joinOverview', function(data) {
-        console.log('JoinOverview');
-        console.log(data);
+        socket.join('overview');
+        socket.broadcast.to('overview').emit('playerJoined', data)
     });
     socket.on('joinTable', function(data) {
-        console.log('JoinTable');
-        console.log(data);
-        socket.broadcast.emit('newPlayer', data);
+        socket.join(data.tableId);
     });
-    console.log(socket);
+    console.log(socket.manager.rooms);
 };
 
 module.exports = so;

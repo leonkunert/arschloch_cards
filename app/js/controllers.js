@@ -55,7 +55,7 @@ angular.module('arschloch.controllers', [])
                 // TODO: Handle Error
         });
     }
-    socket.emit('joinTable', {'playerName': $scope.playerName, 'playerId': $scope.playerId});
+    socket.emit('joinTable', {'playerName': $scope.playerName, 'playerId': $scope.playerId, 'tableId': $routeParams.tableId});
     $log.debug('using Table ctrl');
     socket.on('newPlayer', function (data) {
         playerFactory.getPlayer(data.playerId)
