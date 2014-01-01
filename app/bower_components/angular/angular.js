@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.7-build.2026+sha.7d6e5a2
+ * @license AngularJS v1.2.7-build.2036+sha.e415e91
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -68,7 +68,7 @@ function minErr(module) {
       return match;
     });
 
-    message = message + '\nhttp://errors.angularjs.org/1.2.7-build.2026+sha.7d6e5a2/' +
+    message = message + '\nhttp://errors.angularjs.org/1.2.7-build.2036+sha.e415e91/' +
       (module ? module + '/' : '') + code;
     for (i = 2; i < arguments.length; i++) {
       message = message + (i == 2 ? '?' : '&') + 'p' + (i-2) + '=' +
@@ -1831,7 +1831,7 @@ function setupModuleLoader(window) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.2.7-build.2026+sha.7d6e5a2',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.2.7-build.2036+sha.e415e91',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
   minor: 2,
   dot: 7,
@@ -3663,6 +3663,11 @@ function createInjector(modulesToLoad) {
           path.unshift(serviceName);
           cache[serviceName] = INSTANTIATING;
           return cache[serviceName] = factory(serviceName);
+        } catch (err) {
+          if (cache[serviceName] === INSTANTIATING) {
+            delete cache[serviceName];
+          }
+          throw err;
         } finally {
           path.shift();
         }
@@ -4197,8 +4202,9 @@ function Browser(window, document, $log, $sniffer) {
    * @param {boolean=} replace Should new url replace current history record ?
    */
   self.url = function(url, replace) {
-    // Android Browser BFCache causes location reference to become stale.
+    // Android Browser BFCache causes location, history reference to become stale.
     if (location !== window.location) location = window.location;
+    if (history !== window.history) history = window.history;
 
     // setter
     if (url) {
@@ -11300,6 +11306,7 @@ function $RootScopeProvider(){
       this.$$asyncQueue = [];
       this.$$postDigestQueue = [];
       this.$$listeners = {};
+      this.$$listenerCount = {};
       this.$$isolateBindings = {};
     }
 
@@ -11359,6 +11366,7 @@ function $RootScopeProvider(){
         }
         child['this'] = child;
         child.$$listeners = {};
+        child.$$listenerCount = {};
         child.$parent = this;
         child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null;
         child.$$prevSibling = this.$$childTail;
@@ -11863,6 +11871,8 @@ function $RootScopeProvider(){
         this.$$destroyed = true;
         if (this === $rootScope) return;
 
+        forEach(this.$$listenerCount, bind(null, decrementListenerCount, this));
+
         if (parent.$$childHead == this) parent.$$childHead = this.$$nextSibling;
         if (parent.$$childTail == this) parent.$$childTail = this.$$prevSibling;
         if (this.$$prevSibling) this.$$prevSibling.$$nextSibling = this.$$nextSibling;
@@ -12052,8 +12062,18 @@ function $RootScopeProvider(){
         }
         namedListeners.push(listener);
 
+        var current = this;
+        do {
+          if (!current.$$listenerCount[name]) {
+            current.$$listenerCount[name] = 0;
+          }
+          current.$$listenerCount[name]++;
+        } while ((current = current.$parent));
+
+        var self = this;
         return function() {
           namedListeners[indexOf(namedListeners, listener)] = null;
+          decrementListenerCount(self, 1, name);
         };
       },
 
@@ -12165,8 +12185,7 @@ function $RootScopeProvider(){
             listeners, i, length;
 
         //down while you can, then up and next sibling or up and next sibling until back at root
-        do {
-          current = next;
+        while ((current = next)) {
           event.currentScope = current;
           listeners = current.$$listeners[name] || [];
           for (i=0, length = listeners.length; i<length; i++) {
@@ -12188,12 +12207,14 @@ function $RootScopeProvider(){
           // Insanity Warning: scope depth-first traversal
           // yes, this code is a bit crazy, but it works and we have tests to prove it!
           // this piece should be kept in sync with the traversal in $digest
-          if (!(next = (current.$$childHead || (current !== target && current.$$nextSibling)))) {
+          // (though it differs due to having the extra check for $$listenerCount)
+          if (!(next = ((current.$$listenerCount[name] && current.$$childHead) ||
+              (current !== target && current.$$nextSibling)))) {
             while(current !== target && !(next = current.$$nextSibling)) {
               current = current.$parent;
             }
           }
-        } while ((current = next));
+        }
 
         return event;
       }
@@ -12220,6 +12241,16 @@ function $RootScopeProvider(){
       var fn = $parse(exp);
       assertArgFn(fn, name);
       return fn;
+    }
+
+    function decrementListenerCount(current, count, name) {
+      do {
+        current.$$listenerCount[name] -= count;
+
+        if (current.$$listenerCount[name] === 0) {
+          delete current.$$listenerCount[name];
+        }
+      } while ((current = current.$parent));
     }
 
     /**
@@ -15981,9 +16012,13 @@ function textInputType(scope, element, attr, ctrl, $sniffer, $browser) {
     }
 
     if (ctrl.$viewValue !== value) {
-      scope.$apply(function() {
+      if (scope.$$phase) {
         ctrl.$setViewValue(value);
-      });
+      } else {
+        scope.$apply(function() {
+          ctrl.$setViewValue(value);
+        });
+      }
     }
   };
 
