@@ -20,6 +20,7 @@ var table    = require('./schemas/table.js')
     , player = require('./schemas/player.js')
     , cards  = require('./schemas/cards.js')
     , path   = require('path')
+    , so     = require('./so_api.js')
     , auth   = require('./auth.js');
 
 /*---- Adding things ----*/
@@ -27,14 +28,22 @@ var table    = require('./schemas/table.js')
 // Create a New Table with MaxPlayers
 exports.addTable = function (req, res) {
     if (auth.checkAuth(req, res)) {
+        var maxPlayers;
+        if (!req.body.maxPlayers) {
+            maxPlayers = 5;
+        } else {
+            maxPlayers = req.body.maxPlayers;
+        }
         new table({
-            maxPlayers: req.body.maxPlayers
+            'maxPlayers': maxPlayers
         }).save(function (err, result, numberAffected) {
             // If an error occours
             if (err) {
                 console.log('ERROR Adding Table');
                 console.log(err);
             }
+            console.info('adding new Table');
+            so.addTable(result);
 
             // Return whatever has been inserted into the DB
             res.json(result);
@@ -89,7 +98,7 @@ exports.addPlayerToTable = function (req, res) {
             table.findByIdAndUpdate(
                 {_id: req.params.tableId},
                 {$push: {players: req.params.playerId, passPlayers: req.params.playerId}},
-                {safe: true, upsert: true}
+                {safe: true, upsert: false}
             ).exec();
             res.json(model);
         }
@@ -104,10 +113,10 @@ exports.updatePlayer = function (req, res) {
             if (err) {
                 console.log(err);
             }
-            res.json(model)
+            res.json(model);
         }
     );
-}
+};
 
 exports.updateTable = function (req, res) {
     table.findByIdAndUpdate(

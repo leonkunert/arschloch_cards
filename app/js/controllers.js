@@ -4,14 +4,9 @@
 angular.module('arschloch.controllers', [])
 
 // Overview Controller
-.controller("OverviewCtrl", function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory, socket) {
+.controller('OverviewCtrl', function ($scope, $http, $log, $location, playerFactory, tableFactory, cookieFactory, socket) {
 
-    $scope.message = "Overview";
-    socket.on('test', function(data) {
-        console.log(data);
-    });
-
-    socket.emit('joinOverview', {'playerName': cookieFactory.getCookie('playerName'), 'playerId': cookieFactory.getCookie('_id')})
+    $scope.message = 'Overview';
 
     if (cookieFactory.checkCookie()) {
         console.log(cookieFactory.getCookie('playerName'));
@@ -21,7 +16,6 @@ angular.module('arschloch.controllers', [])
     } else {
         $location.path('/register');
     }
-
 
     // Getting all Tables
     tableFactory.getTables()
@@ -33,40 +27,87 @@ angular.module('arschloch.controllers', [])
             $scope.players = data;
         });
 
+    // If a new Table is added
+    socket.on('newTable', function (tableData) {
+        console.log(tableData);
+        var add = true;
+        console.log($scope.tables);
+        for (var _table in $scope.tables) {
+            if ($scope.tables[_table]._id === tableData._id) {
+                add = false;
+            }
+        }
+        if (add) {
+            console.log(tableData);
+            $scope.tables.push(tableData);
+        }
+    });
+    socket.on('playerJoined', function(data) {
+        console.log(data);
+    });
+
+    // Emmit that you joined the overview
+    socket.emit('join', {
+        'room': 'overview',
+        'playerName': cookieFactory.getCookie('playerName'),
+        'playerId': cookieFactory.getCookie('_id')
+    });
+
+
     $log.debug('using overview ctrl');
 })
 
 // Table Controller
-.controller("TableCtrl", function ($scope, $routeParams, $http, $log, tableFactory, playerFactory, cookieFactory, socket) {
+.controller('TableCtrl', function ($scope, $routeParams, $location, $http, $log, tableFactory, playerFactory, cookieFactory, socket) {
 
-    $scope.message    = "Add Table";
+    $scope.message    = 'Add Table';
     $scope.playerName = cookieFactory.getCookie('playerName');
     $scope.playerId   = cookieFactory.getCookie('_id');
 
     tableFactory.joinTable($routeParams.tableId, $scope.playerId);
 
-    if ($routeParams.tableId !== "undefined") {
+    if ($routeParams.tableId !== 'undefined') {
         tableFactory.getTable($routeParams.tableId)
             .success(function (data) {
                 $scope.table   = data[0];
                 $scope.players = data[1];
             })
             .error(function (data) {
-                // TODO: Handle Error
-        });
+                $location.path('/');
+            });
     }
-    socket.emit('joinTable', {'playerName': $scope.playerName, 'playerId': $scope.playerId, 'tableId': $routeParams.tableId});
-    $log.debug('using Table ctrl');
-    socket.on('newPlayer', function (data) {
+    socket.emit('join', {
+        'room': 'table',
+        'playerName': $scope.playerName,
+        'playerId': $scope.playerId,
+        'tableId': $routeParams.tableId
+    });
+
+    socket.on('playerJoined', function (data) {
+        console.log(data);
         playerFactory.getPlayer(data.playerId)
             .success(function (playerData) {
-                $scope.players.push(playerData);
+                // Checker if Player is already in the room
+                var add = true;
+                console.log($scope.players);
+                console.log(playerData);
+                for (var _player in $scope.players) {
+                    if ($scope.players[_player]._id === playerData._id) {
+                        add = false;
+                    }
+                }
+                if (add) {
+                    console.log(playerData);
+                    $scope.players.push(playerData);
+                }
             });
-    })
+    });
+
+    $log.debug('using Table ctrl');
 })
 
 // Register
-.controller("registerCtrl", function ($scope, $location, $log, cookieFactory, playerFactory) {
+.controller('registerCtrl', function ($scope, $location, $log, cookieFactory, playerFactory) {
 
     // If Cookies are already there Update their expire Date
     if (cookieFactory.getCookie('playerName') !== '' || cookieFactory.getCookie('_id') !== '') {
@@ -82,11 +123,11 @@ angular.module('arschloch.controllers', [])
         }
     };
 
-    $scope.message = "Hey would you like to play? Just enter a Username.";
+    $scope.message = 'Hey would you like to play? Just enter a Username.';
     $log.debug('using Register ctrl');
 })
 
-.controller("addTableCtrl", function ($scope, $location, tableFactory) {
+.controller('addTableCtrl', function ($scope, $location, tableFactory) {
     $scope.message = 'Add a new Table';
     $scope.addTable = function (maxPlayers) {
         tableFactory.addTable(maxPlayers)
@@ -96,7 +137,7 @@ angular.module('arschloch.controllers', [])
     };
 })
 
-.controller("profileCtrl", function ($scope, $location, $log, cookieFactory, playerFactory) {
+.controller('profileCtrl', function ($scope, $location, $log, cookieFactory, playerFactory) {
     $scope.message    = 'The Data we have got:';
     // getting all Player Data
     var playerData;
@@ -108,17 +149,17 @@ angular.module('arschloch.controllers', [])
     $log.debug('using Profile ctrl');
 })
 
-.controller("statusCtrl", function ($scope, $log, socket) {
+.controller('statusCtrl', function ($scope, $log, socket) {
     $scope.messages = [];
-    socket.on('test', function(data) {
+    socket.on('test', function (data) {
         $scope.messages.push(data);
     });
     $log.debug('using status ctrl');
 })
 
 // Errors
-.controller("errorCtrl", function ($scope, $log, cookieFactory) {
-    $scope.message = "Error. WHAT'S HAPPENING. Have you Cookies and Javascript enabled???";
+.controller('errorCtrl', function ($scope, $log, cookieFactory) {
+    $scope.message = 'Error. WHAT\'S HAPPENING. Have you Cookies and Javascript enabled???';
     cookieFactory.checkCookie();
     $log.debug('using Error ctrl');
 });

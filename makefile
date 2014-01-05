@@ -9,6 +9,6 @@ test:
 ## Start the webserver
 	#@node api/app.js
 ## Karma tests (E2E)
-	@karma start config/karma-e2e.conf.js
+	##@karma start config/karma-e2e.conf.js
 
 .PHONY: all test clean
